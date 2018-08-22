@@ -7,8 +7,13 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
+#include<termios.h>
 
 using namespace std;
 
+extern char *root;
+
 void openDirecoty(const char *path);
 void display(const char *dirName, const char *root);
+
+void navigate();

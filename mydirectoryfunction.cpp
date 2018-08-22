@@ -7,7 +7,7 @@ void openDirecoty(const char *path)
 {
 	DIR *d;
 	struct dirent *dir;
-
+	system("clear");
 	d = opendir(path);
 	if (d) {
 
