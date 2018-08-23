@@ -12,6 +12,9 @@
 using namespace std;
 
 extern char *root;
+extern vector< string > dirList;
+extern stack <string> bkspace_stack;
+
 
 void openDirecoty(const char *path);
 void display(const char *dirName, const char *root);
