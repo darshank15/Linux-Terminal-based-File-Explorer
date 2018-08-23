@@ -9,26 +9,30 @@ void openDirecoty(const char *path)
 	dirList.clear();
 	DIR *d;
 	struct dirent *dir;
-	system("clear");
+	printf("\033[H\033[J");
+	printf("%c[%d;%dH",27,0,1);
 	d = opendir(path);
 	//printf("\n");
 	if (d) {
 
 	    while ((dir = readdir(d)) != NULL) {
 	      //printf("\n%-10s", dir->d_name);
-	      //if(path != root)	
-	      //{
-	      		dirList.push_back(string(dir->d_name));	
+	      if( (string(dir->d_name) == "..") && bkspace_stack.empty())	
+	      {   } 
+	  	  else{
+
+	  	  		dirList.push_back(string(dir->d_name));	
 	      		display((dir->d_name), path);
-	      //}
+	  	   }
 
 	    }
 
 	    closedir(d);
 	}
 	else{
-		perror(d);
+		//perror(d);
 	}
+	printf("%c[%d;%dH",27,0,1);
 }
 
 

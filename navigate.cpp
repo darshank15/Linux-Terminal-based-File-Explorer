@@ -45,7 +45,7 @@ void navigate()
 	        	//If DOWN-arrow Key press
 	        	else if(ch=='B')
 	        	{
-	        		if(xcor < (dirList.size()-1))
+	        		if(xcor < (dirList.size()))
 	        			xcor++;
 	        		pos();
 	        	}
@@ -71,6 +71,7 @@ void navigate()
 	        	{
 	        		bkspace_stack.pop();
 	        	}
+	        	curPath = root;
 	        	openDirecoty(root);
 	        }
 	        //If Back-Space key pressed
@@ -115,8 +116,9 @@ void navigate()
 					}
 
 					curPath = path;
-					openDirecoty(curPath);
 					xcor=0;
+					openDirecoty(curPath);
+					
 				}
 				//If file type is Regular File
 				else if((sb.st_mode & S_IFMT) == S_IFREG)
