@@ -2,6 +2,8 @@
 
 char *root;
 stack <string> bkspace_stack;
+stack <string> back_stack;
+stack <string> forw_stack;
 
 int main(int argc, char *argv[])
 {

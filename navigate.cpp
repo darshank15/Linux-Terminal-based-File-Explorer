@@ -1,5 +1,5 @@
 #include "myheader.h"
-unsigned int xcor=0,ycor=1;
+unsigned int xcor=1,ycor=1;
 char* curPath;
 #define esc 27
 #define cls printf("%c[2J",esc)
@@ -8,7 +8,7 @@ char* curPath;
 void navigate()
 {
 	curPath = root;
-	xcor=0,ycor=1;
+	xcor=1,ycor=1;
 	pos();
 	struct termios initialrsettings, newrsettings;
 	char ch;
@@ -37,7 +37,7 @@ void navigate()
 	        	//If UP-arrow Key press
 	        	if(ch=='A')
 	        	{
-	        		if(xcor>0)
+	        		if(xcor>1)
 	        			--xcor;
 	        		pos();
 
@@ -49,15 +49,34 @@ void navigate()
 	        			xcor++;
 	        		pos();
 	        	}
-	        	//If LEFT-arrow Key press
+	        	//If RIGHT-arrow Key press
 	        	else if(ch=='C')
-	        	{
+	        	{ 
+	        		//cout<<"RIGHT"<<endl;
+	        		if(!forw_stack.empty())
+	        		{
+	        			back_stack.push(string(curPath));
+	        			string top = forw_stack.top();
+						forw_stack.pop();
+	        			strcpy(curPath,top.c_str());
+	        			//cout<<"******* RIGHT: "<<curPath;
+	        			openDirecoty(curPath);
+	        		}
 
 	        	}
-	        	//If RIGHT-arrow Key press
+	        	//If LEFT-arrow Key press
 	        	else if(ch=='D')
 	        	{
-
+					//cout<<"LEFT"<<endl;
+	        		if(!back_stack.empty())
+	        		{
+	        			forw_stack.push(string(curPath));
+	        			string top = back_stack.top();
+	        			back_stack.pop();
+	        			strcpy(curPath,top.c_str());
+	        			//cout<<"******* : LEFT"<<curPath;
+	        			openDirecoty(curPath);
+	        		}	        		
 	        	}
 	        	else
 	        	{
@@ -67,6 +86,7 @@ void navigate()
 	        //If HOME key pressed
 	        else if(ch==104 || ch==72)
 	        {
+	        	back_stack.push(string(curPath));
 	        	while(!bkspace_stack.empty())
 	        	{
 	        		bkspace_stack.pop();
@@ -77,21 +97,28 @@ void navigate()
 	        //If Back-Space key pressed
 	        else if(ch==127)
 	        {
+
 	        	if(!bkspace_stack.empty())
 	        	{
+	        		//back_stack.pop();
+	        		back_stack.push(string(curPath));
+
 	        		string top = bkspace_stack.top();
 	        		bkspace_stack.pop();
 	        		strcpy(curPath,top.c_str());
 	        		openDirecoty(curPath);
 	        		//cout<<"back space dir : "<<curPath<<endl;
 	        	}
+
+
+
 	        }
 	        //If Enter key pressed
 	        else if(ch==10)
 	        {
 	       
 	        	//cout<<"********prev curPath : "<<curPath<<endl;
-	        	string curDir = dirList[--xcor];
+	        	string curDir = dirList[xcor-1];
 	        	//cout<<"********CurDir/file  : "<<curDir<<endl;
 	        	string fullPath = string(curPath) + "/" + curDir;
 				char* path = new char[fullPath.length() + 1];
@@ -109,14 +136,16 @@ void navigate()
 					{  }
 					else if(curDir == string(".."))
 					{
-						bkspace_stack.pop();	
+	        			//back_stack.pop();
+	        			back_stack.push(string(curPath));
 					}
 					else{
-						bkspace_stack.push(string(curPath));	
+						bkspace_stack.push(string(curPath));
+						back_stack.push(string(curPath));	
 					}
 
 					curPath = path;
-					xcor=0;
+					xcor=1;
 					openDirecoty(curPath);
 					
 				}

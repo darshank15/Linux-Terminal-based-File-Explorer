@@ -10,7 +10,7 @@ void openDirecoty(const char *path)
 	DIR *d;
 	struct dirent *dir;
 	printf("\033[H\033[J");
-	printf("%c[%d;%dH",27,0,1);
+	printf("%c[%d;%dH",27,1,1);
 	d = opendir(path);
 	//printf("\n");
 	if (d) {
@@ -63,6 +63,6 @@ void display(const char *dirName, const char *root)
     printf( (sb.st_mode & S_IROTH) ? "r" : "-");
     printf( (sb.st_mode & S_IWOTH) ? "w" : "-");
     printf( (sb.st_mode & S_IXOTH) ? "x" : "-");
-	printf("\t%10lld bytes", (long long) sb.st_size);
+	printf("\t%10.2fK", ((double) sb.st_size)/1024);
 	printf("\t%s",ctime(&sb.st_mtime));
 }

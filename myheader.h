@@ -14,6 +14,8 @@ using namespace std;
 extern char *root;
 extern vector< string > dirList;
 extern stack <string> bkspace_stack;
+extern stack <string> back_stack;
+extern stack <string> forw_stack;
 
 
 void openDirecoty(const char *path);
