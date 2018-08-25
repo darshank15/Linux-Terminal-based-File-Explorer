@@ -65,5 +65,5 @@ void display(const char *dirName, const char *root)
 	char *tt=(ctime(&sb.st_mtime));
 	tt[strlen(tt)-1]='\0';
 	printf("\t%s",tt);
-	printf("\t%-20s \n",dirName);
+	printf("\t%-10s \n",dirName);
 }

@@ -1,6 +1,10 @@
 #include "myheader.h"
+
 unsigned int xcor=1,ycor=1;
+int rowsize,colsize;
+int wintrack;
 char* curPath;
+
 #define esc 27
 #define cls printf("%c[2J",esc)
 #define pos() printf("%c[%d;%dH",esc,xcor,ycor)
@@ -14,8 +18,16 @@ void setBackPath(char *path)
 	newPath = tempPath.substr(0,pos);
 	strcpy(curPath,newPath.c_str());
 }
+void clearStack(stack<string> &s)
+{
+	while(!s.empty())
+	{
+		s.pop();
+	}
+}
 void navigate()
 {
+
 	curPath = root;
 	xcor=1,ycor=1;
 	pos();
@@ -34,7 +46,14 @@ void navigate()
 	}
 	else {
 
-		while(1){		
+		while(1){	
+
+			struct winsize win;
+			ioctl(STDOUT_FILENO, TIOCGWINSZ, &win);
+			rowsize = win.ws_row-2;
+			colsize = win.ws_col;
+			//cout<<"*******************rows"<<rowsize<<endl;	
+			//cout<<"*******************cols"<<colsize<<endl;	
 			ch=cin.get();
 
 	        //printf("%d",ch);
@@ -55,7 +74,9 @@ void navigate()
 	        	else if(ch=='B')
 	        	{
 	        		if(xcor < (dirList.size()))
+	        		{
 	        			xcor++;
+	        		}
 	        		pos();
 	        	}
 	        	//If RIGHT-arrow Key press
@@ -68,7 +89,7 @@ void navigate()
 	        			string top = forw_stack.top();
 						forw_stack.pop();
 	        			strcpy(curPath,top.c_str());
-	        			//cout<<"******* RIGHT: "<<curPath;
+	        			cout<<"******* RIGHT: "<<curPath;
 	        			openDirecoty(curPath);
 	        		}
 
@@ -83,7 +104,7 @@ void navigate()
 	        			string top = back_stack.top();
 	        			back_stack.pop();
 	        			strcpy(curPath,top.c_str());
-	        			//cout<<"******* : LEFT"<<curPath;
+	        			cout<<"******* : LEFT"<<curPath;
 	        			openDirecoty(curPath);
 	        		}	        		
 	        	}
@@ -96,6 +117,7 @@ void navigate()
 	        else if(ch==104 || ch==72)
 	        {
 	        	back_stack.push(string(curPath));
+	        	clearStack(forw_stack);
 	        	string newPath = ".";
 	        	strcpy(curPath,newPath.c_str());
 	        	openDirecoty(curPath);
@@ -105,6 +127,8 @@ void navigate()
 	        {
 	        	if(strcmp(curPath,root) != 0)
 	        	{
+	        		back_stack.push(curPath);
+	        		clearStack(forw_stack);
 	        		setBackPath(curPath);
 		        	openDirecoty(curPath);
 		        	//cout<<"*************curPathr"<<curPath<<"***********";
@@ -138,12 +162,14 @@ void navigate()
 					else if(curDir == string(".."))
 					{
 	        			back_stack.push(string(curPath));
+	        			clearStack(forw_stack);
 	        			setBackPath(curPath);
 	        			
 					}
 					else{
 						
 						back_stack.push(string(curPath));
+						clearStack(forw_stack);
 						curPath = path;
 	        			
 					}

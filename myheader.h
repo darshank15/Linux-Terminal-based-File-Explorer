@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <termios.h>
+#include <sys/ioctl.h>
 //#include <string.h> 
 
 using namespace std;
@@ -16,6 +17,8 @@ extern char *root;
 extern vector< string > dirList;
 extern stack <string> back_stack;
 extern stack <string> forw_stack;
+extern int rowsize,colsize;
+
 
 
 void openDirecoty(const char *path);
