@@ -5,6 +5,15 @@ char* curPath;
 #define cls printf("%c[2J",esc)
 #define pos() printf("%c[%d;%dH",esc,xcor,ycor)
 
+void setBackPath(char *path)
+{
+	size_t pos;
+	string newPath;
+	string  tempPath= string(path);
+	pos = tempPath.find_last_of("/\\");
+	newPath = tempPath.substr(0,pos);
+	strcpy(curPath,newPath.c_str());
+}
 void navigate()
 {
 	curPath = root;
@@ -87,30 +96,21 @@ void navigate()
 	        else if(ch==104 || ch==72)
 	        {
 	        	back_stack.push(string(curPath));
-	        	while(!bkspace_stack.empty())
-	        	{
-	        		bkspace_stack.pop();
-	        	}
-	        	curPath = root;
-	        	openDirecoty(root);
+	        	string newPath = ".";
+	        	strcpy(curPath,newPath.c_str());
+	        	openDirecoty(curPath);
 	        }
 	        //If Back-Space key pressed
 	        else if(ch==127)
 	        {
-
-	        	if(!bkspace_stack.empty())
+	        	if(strcmp(curPath,root) != 0)
 	        	{
-	        		//back_stack.pop();
-	        		back_stack.push(string(curPath));
-
-	        		string top = bkspace_stack.top();
-	        		bkspace_stack.pop();
-	        		strcpy(curPath,top.c_str());
-	        		openDirecoty(curPath);
-	        		//cout<<"back space dir : "<<curPath<<endl;
+	        		setBackPath(curPath);
+		        	openDirecoty(curPath);
+		        	//cout<<"*************curPathr"<<curPath<<"***********";
+		        	//cout<<"**************Root : "<<root<<"***********";
 	        	}
-
-
+	        	
 
 	        }
 	        //If Enter key pressed
@@ -123,7 +123,7 @@ void navigate()
 	        	string fullPath = string(curPath) + "/" + curDir;
 				char* path = new char[fullPath.length() + 1];
 				strcpy(path, fullPath.c_str());
-	        	//cout<<"**************"<<path<<"************";
+				//cout<<"**************"<<path<<"************";	
 
 	        	struct stat sb;
 				stat(path,&sb);
@@ -131,21 +131,23 @@ void navigate()
 				//If file type is Directory
 				if((sb.st_mode & S_IFMT) == S_IFDIR) {
 					//cout<<"DIR"<<endl;
+					xcor=1;
 
 					if(curDir == string("."))
 					{  }
 					else if(curDir == string(".."))
 					{
-	        			//back_stack.pop();
 	        			back_stack.push(string(curPath));
+	        			setBackPath(curPath);
+	        			
 					}
 					else{
-						bkspace_stack.push(string(curPath));
-						back_stack.push(string(curPath));	
+						
+						back_stack.push(string(curPath));
+						curPath = path;
+	        			
 					}
 
-					curPath = path;
-					xcor=1;
 					openDirecoty(curPath);
 					
 				}

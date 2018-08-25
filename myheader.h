@@ -7,13 +7,13 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
-#include<termios.h>
+#include <termios.h>
+//#include <string.h> 
 
 using namespace std;
 
 extern char *root;
 extern vector< string > dirList;
-extern stack <string> bkspace_stack;
 extern stack <string> back_stack;
 extern stack <string> forw_stack;
 

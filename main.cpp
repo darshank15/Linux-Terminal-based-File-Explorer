@@ -1,7 +1,6 @@
 #include "myheader.h"
 
 char *root;
-stack <string> bkspace_stack;
 stack <string> back_stack;
 stack <string> forw_stack;
 

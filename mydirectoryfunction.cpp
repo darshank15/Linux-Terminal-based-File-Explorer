@@ -17,7 +17,7 @@ void openDirecoty(const char *path)
 
 	    while ((dir = readdir(d)) != NULL) {
 	      //printf("\n%-10s", dir->d_name);
-	      if( (string(dir->d_name) == "..") && bkspace_stack.empty())	
+	      if( (string(dir->d_name) == "..") && (strcmp(path,root) == 0))	
 	      {   } 
 	  	  else{
 
@@ -51,9 +51,7 @@ void display(const char *dirName, const char *root)
 	if (stat(path,&sb) == -1) {
                perror("lstat");
     }
-	
-	printf("%-20s",dirName);
-	printf("\t");
+    printf(  (S_ISDIR(sb.st_mode)) ? "d" : "-");
 	printf( (sb.st_mode & S_IRUSR) ? "r" : "-");
     printf( (sb.st_mode & S_IWUSR) ? "w" : "-");
     printf( (sb.st_mode & S_IXUSR) ? "x" : "-");
@@ -64,5 +62,8 @@ void display(const char *dirName, const char *root)
     printf( (sb.st_mode & S_IWOTH) ? "w" : "-");
     printf( (sb.st_mode & S_IXOTH) ? "x" : "-");
 	printf("\t%10.2fK", ((double) sb.st_size)/1024);
-	printf("\t%s",ctime(&sb.st_mtime));
+	char *tt=(ctime(&sb.st_mtime));
+	tt[strlen(tt)-1]='\0';
+	printf("\t%s",tt);
+	printf("\t%-20s \n",dirName);
 }
