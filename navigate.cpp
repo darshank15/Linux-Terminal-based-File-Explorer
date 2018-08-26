@@ -45,8 +45,12 @@ void navigate()
 
 		while(1)
 		{	
-			ch=cin.get();
+			int lastLine = rowsize + 1;
+	        printf("%c[%d;%dH",esc,lastLine,ycor);
+	        cout<<"-----NORMAL MODE-----";
+	        pos();
 
+			ch=cin.get();
 	        //printf("%d",ch);
 	        if(ch==27)
 	        {
@@ -129,7 +133,7 @@ void navigate()
 	        			string top = forw_stack.top();
 						forw_stack.pop();
 	        			strcpy(curPath,top.c_str());
-	        			cout<<"******* RIGHT: "<<curPath;
+	        			//cout<<"******* RIGHT: "<<curPath;
 	        			openDirecoty(curPath);
 	        		}
 
@@ -144,7 +148,7 @@ void navigate()
 	        			string top = back_stack.top();
 	        			back_stack.pop();
 	        			strcpy(curPath,top.c_str());
-	        			cout<<"******* : LEFT"<<curPath;
+	        			//cout<<"******* : LEFT"<<curPath;
 	        			openDirecoty(curPath);
 	        		}	        		
 	        	}
@@ -230,6 +234,14 @@ void navigate()
 					cout<<"unknown?"<<endl;
 					cout<<"****************************"<<endl;
 				}
+	        }
+
+	        else if(ch==58)
+	        {
+	        	// int lastLine = rowsize + 1;
+	        	// printf("%c[%d;%dH",esc,lastLine,ycor)
+	        	// cout<<"-----NORMAL MODE-----"
+
 	        }
 
 		}
