@@ -1,3 +1,6 @@
+//**********************************************************************
+// All Header file included/imported here
+//**********************************************************************
 #include<bits/stdc++.h>
 #include <iostream>
 #include <string>
@@ -9,10 +12,14 @@
 #include <dirent.h>
 #include <termios.h>
 #include <sys/ioctl.h>
-//#include <string.h> 
+#include <pwd.h>
+#include <grp.h>
 
 using namespace std;
 
+//**********************************************************************
+// Declaring extern global variables
+//**********************************************************************
 extern char *root;
 extern vector< string > dirList;
 extern stack <string> back_stack;
@@ -22,6 +29,9 @@ extern unsigned int totalFiles;
 extern int wintrack;
 
 
+//**********************************************************************
+// Declaring global method
+//**********************************************************************
 void openDirecoty(const char *path);
 void display(const char *dirName, const char *root);
 int getFilePrintingcount();

@@ -1,9 +1,18 @@
+//**********************************************************************
+// Header file
+//**********************************************************************
 #include "myheader.h"
 
+//**********************************************************************
+// Global variable Declaration area
+//**********************************************************************
 char *root;
 stack <string> back_stack;
 stack <string> forw_stack;
 
+//**********************************************************************
+// Main Method
+//**********************************************************************
 int main(int argc, char *argv[])
 {
 	//
@@ -26,10 +35,11 @@ int main(int argc, char *argv[])
 	//Start Navigating through Command prompt
 	navigate();
 
-	
+
 	//checkFile();
 	//chmod("Assi-1.cpp", S_IRWXU|S_IRWXG|S_IROTH|S_IWOTH);
 	//int mkdir(const char *path, mode_t mode)                      page No: 121 
 	//int rmdir(const char *path);
+	
 	return 0;
 }

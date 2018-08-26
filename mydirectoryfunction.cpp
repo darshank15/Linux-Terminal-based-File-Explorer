@@ -1,9 +1,18 @@
+//**********************************************************************
+// Header file included
+//**********************************************************************
 #include "myheader.h"
 
+//**********************************************************************
+// Declaration of global variables
+//**********************************************************************
 vector< string > dirList;
 unsigned int totalFiles;
 int wintrack;
 
+//**********************************************************************
+// Method returns total number of files + Directory withing given path
+//**********************************************************************
 int getDirectoryCount(const char * path)
 {
 	int count=0;
@@ -31,7 +40,7 @@ int getDirectoryCount(const char * path)
 	return count;
 }
 //************************************************************************
-// function to open Directory Content
+// function that prints directory/file within given terminal size
 //************************************************************************
 void openDirecoty(const char *path)
 {
@@ -39,6 +48,7 @@ void openDirecoty(const char *path)
 	DIR *d;
 	totalFiles = getDirectoryCount(path);
 	int len = getFilePrintingcount();
+	//sort(dirList.begin(),dirList.end());
 	int itr=1;
 	wintrack=0;
 	struct dirent *dir;
@@ -86,6 +96,7 @@ void display(const char *dirName, const char *root)
 	if (stat(path,&sb) == -1) {
                perror("lstat");
     }
+    
     printf(  (S_ISDIR(sb.st_mode)) ? "d" : "-");
 	printf( (sb.st_mode & S_IRUSR) ? "r" : "-");
     printf( (sb.st_mode & S_IWUSR) ? "w" : "-");
@@ -96,9 +107,19 @@ void display(const char *dirName, const char *root)
     printf( (sb.st_mode & S_IROTH) ? "r" : "-");
     printf( (sb.st_mode & S_IWOTH) ? "w" : "-");
     printf( (sb.st_mode & S_IXOTH) ? "x" : "-");
+
+    //stat(filename, &info);  // Error check omitted
+	struct passwd *pw = getpwuid(sb.st_uid);
+	struct group  *gr = getgrgid(sb.st_gid);
+	if(pw != 0)
+		printf("\t%s", pw->pw_name);
+	if(gr != 0)
+		printf(" %s", gr->gr_name);
+
 	printf("\t%10.2fK", ((double) sb.st_size)/1024);
 	char *tt=(ctime(&sb.st_mtime));
 	tt[strlen(tt)-1]='\0';
 	printf("\t%s",tt);
-	printf("\t%-10s \n",dirName);
+	
+	printf("\t%s\n",dirName);
 }
