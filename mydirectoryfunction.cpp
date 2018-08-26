@@ -39,44 +39,29 @@ int getDirectoryCount(const char * path)
 	}
 	return count;
 }
+
 //************************************************************************
 // function that prints directory/file within given terminal size
 //************************************************************************
 void openDirecoty(const char *path)
 {
 	dirList.clear();
-	DIR *d;
 	totalFiles = getDirectoryCount(path);
-	int len = getFilePrintingcount();
-	//sort(dirList.begin(),dirList.end());
-	int itr=1;
+	unsigned int len = getFilePrintingcount();
+	sort(dirList.begin(),dirList.end());
 	wintrack=0;
-	struct dirent *dir;
 	printf("\033[H\033[J");
 	printf("%c[%d;%dH",27,1,1);
 	//cout<<"\n*******total files  : "<<totalFiles<<endl;
 	//cout<<"\n***********total files needs to be printed : "<<len<<endl;
-	d = opendir(path);
-	//printf("\n");
-	if (d) {
 
-	    while (((dir = readdir(d)) != NULL) && (itr<=len)){
-	      //printf("\n%-10s", dir->d_name);
-	      if( (string(dir->d_name) == "..") && (strcmp(path,root) == 0))	
-	      {   } 
-	  	  else{
-
-	      		display((dir->d_name), path);
-	      		itr++;
-	  	   }
-
-	    }
-
-	    closedir(d);
+	for(unsigned int i=0,itr=1;i<totalFiles && itr<=len ; i++,itr++)
+	{		
+			char *tempFileName = new char[dirList[i].length() + 1];
+			strcpy(tempFileName,dirList[i].c_str());
+			display(tempFileName, path);
 	}
-	else{
-		//perror(d);
-	}
+
 	printf("%c[%d;%dH",27,0,1);
 }
 

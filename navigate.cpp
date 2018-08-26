@@ -158,8 +158,7 @@ void navigate()
 	        {
 	        	back_stack.push(string(curPath));
 	        	clearStack(forw_stack);
-	        	string newPath = ".";
-	        	strcpy(curPath,newPath.c_str());
+	        	strcpy(curPath,root);
 	        	openDirecoty(curPath);
 	        }
 	        //If Back-Space key pressed
