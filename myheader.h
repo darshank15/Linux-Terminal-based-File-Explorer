@@ -17,11 +17,12 @@ extern char *root;
 extern vector< string > dirList;
 extern stack <string> back_stack;
 extern stack <string> forw_stack;
-extern int rowsize,colsize;
-
+extern unsigned int rowsize,colsize;
+extern unsigned int totalFiles;
+extern int wintrack;
 
 
 void openDirecoty(const char *path);
 void display(const char *dirName, const char *root);
-
+int getFilePrintingcount();
 void navigate();

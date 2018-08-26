@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 		char* path = new char[s.length() + 1];
 		strcpy(path, s.c_str());
 		root = path;
-		openDirecoty(".");	
+		openDirecoty(".");
 	}
 	else if(argc == 2){
 		root= argv[1];
@@ -22,7 +22,11 @@ int main(int argc, char *argv[])
 	else{
 		cout<<"Invalid Argument !!!"<<endl;
 	}
+
+	//Start Navigating through Command prompt
 	navigate();
+
+	
 	//checkFile();
 	//chmod("Assi-1.cpp", S_IRWXU|S_IRWXG|S_IROTH|S_IWOTH);
 	//int mkdir(const char *path, mode_t mode)                      page No: 121 

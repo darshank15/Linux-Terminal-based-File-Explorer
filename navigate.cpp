@@ -1,10 +1,7 @@
 #include "myheader.h"
 
 unsigned int xcor=1,ycor=1;
-int rowsize,colsize;
-int wintrack;
 char* curPath;
-
 #define esc 27
 #define cls printf("%c[2J",esc)
 #define pos() printf("%c[%d;%dH",esc,xcor,ycor)
@@ -33,8 +30,8 @@ void navigate()
 	pos();
 	struct termios initialrsettings, newrsettings;
 	char ch;
-
 	tcgetattr(fileno(stdin), &initialrsettings);
+
 
 	//switch to canonical mode and echo mode
 	newrsettings = initialrsettings;
@@ -46,14 +43,8 @@ void navigate()
 	}
 	else {
 
-		while(1){	
-
-			struct winsize win;
-			ioctl(STDOUT_FILENO, TIOCGWINSZ, &win);
-			rowsize = win.ws_row-2;
-			colsize = win.ws_col;
-			//cout<<"*******************rows"<<rowsize<<endl;	
-			//cout<<"*******************cols"<<colsize<<endl;	
+		while(1)
+		{	
 			ch=cin.get();
 
 	        //printf("%d",ch);
@@ -65,19 +56,68 @@ void navigate()
 	        	//If UP-arrow Key press
 	        	if(ch=='A')
 	        	{
-	        		if(xcor>1)
-	        			--xcor;
-	        		pos();
-
+	        		if(xcor+wintrack > 1)
+	        		{
+	        			//cout<<"**********xcor"<<xcor<<"*****wintrack"<<wintrack<<endl;
+	        			xcor--;
+	        			if(xcor>0){
+	        				pos();
+	        			}
+	        			else if(xcor<=0 && xcor+wintrack >= 1)
+	        			{
+	        				cls;
+	        				if(wintrack > 0)
+	        				{
+	        					wintrack--;
+	        				}
+	        				//cout<<"wintrack : "<<wintrack<<"***********";
+	        				
+	        				for(unsigned int i=wintrack;i<=rowsize+wintrack-1;i++)
+	        				{
+	        					char *tempFileName = new char[dirList[i].length() + 1];
+	        					strcpy(tempFileName,dirList[i].c_str());
+	        					display(tempFileName,root);
+	        				}
+	        				xcor++;
+	        				pos();
+	        			}
+	        		}
+	        		
 	        	}
 	        	//If DOWN-arrow Key press
 	        	else if(ch=='B')
-	        	{
-	        		if(xcor < (dirList.size()))
+	        	{	
+	        		//cout<<"\n*******************DOWN";
+	        		int lenRecord;
+	        		if(xcor+wintrack < (totalFiles))
 	        		{
 	        			xcor++;
+	        			//cout<<"**********xcor"<<xcor<<"*****"<<endl;
+	        			if(xcor<=rowsize){
+	        				pos();
+	        			}
+	        			else if(xcor>rowsize && xcor+wintrack<=totalFiles)
+	        			{
+	        				cls;
+	        				//cout<<"***********2st if"<<"*****"<<endl;
+	        				lenRecord = getFilePrintingcount()-1;
+	        				if(totalFiles > rowsize)
+	        				{
+	        					wintrack++;
+	        				}
+	        				//cout<<"wintrack : "<<wintrack<<"***********";
+	        				
+	        				for(int i=wintrack;i<=lenRecord+wintrack;i++)
+	        				{
+	        					char *tempFileName = new char[dirList[i].length() + 1];
+	        					strcpy(tempFileName,dirList[i].c_str());
+	        					display(tempFileName,root);
+	        				}
+	        				xcor--;
+	        			}
+	        			pos();
 	        		}
-	        		pos();
+	        		
 	        	}
 	        	//If RIGHT-arrow Key press
 	        	else if(ch=='C')
@@ -142,7 +182,7 @@ void navigate()
 	        {
 	       
 	        	//cout<<"********prev curPath : "<<curPath<<endl;
-	        	string curDir = dirList[xcor-1];
+	        	string curDir = dirList[xcor+wintrack-1];
 	        	//cout<<"********CurDir/file  : "<<curDir<<endl;
 	        	string fullPath = string(curPath) + "/" + curDir;
 				char* path = new char[fullPath.length() + 1];
