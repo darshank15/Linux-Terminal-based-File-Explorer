@@ -1,11 +1,21 @@
+//**********************************************************************
+// Header file Included
+//**********************************************************************
 #include "myheader.h"
 
+//**********************************************************************
+// Global Declaration & #defined macros
+//**********************************************************************
 unsigned int xcor=1,ycor=1;
 char* curPath;
 #define esc 27
 #define cls printf("%c[2J",esc)
 #define pos() printf("%c[%d;%dH",esc,xcor,ycor)
+#define posx(x) printf("%c[%d;%dH",esc,x,ycor)
 
+//**********************************************************************
+// Method that update current path when backspace key pressed
+//**********************************************************************
 void setBackPath(char *path)
 {
 	size_t pos;
@@ -15,6 +25,10 @@ void setBackPath(char *path)
 	newPath = tempPath.substr(0,pos);
 	strcpy(curPath,newPath.c_str());
 }
+
+//**********************************************************************
+// This Method Clear the stack contents
+//**********************************************************************
 void clearStack(stack<string> &s)
 {
 	while(!s.empty())
@@ -22,17 +36,20 @@ void clearStack(stack<string> &s)
 		s.pop();
 	}
 }
+
+//**********************************************************************
+// Method for navigation on key press in a Normal mode
+//**********************************************************************
 void navigate()
 {
 
 	curPath = root;
 	xcor=1,ycor=1;
 	pos();
-	struct termios initialrsettings, newrsettings;
 	char ch;
+	
+	struct termios initialrsettings, newrsettings;
 	tcgetattr(fileno(stdin), &initialrsettings);
-
-
 	//switch to canonical mode and echo mode
 	newrsettings = initialrsettings;
 	newrsettings.c_lflag &= ~ICANON;
@@ -46,7 +63,7 @@ void navigate()
 		while(1)
 		{	
 			int lastLine = rowsize + 1;
-	        printf("%c[%d;%dH",esc,lastLine,ycor);
+	        posx(lastLine);
 	        cout<<"-----NORMAL MODE-----";
 	        pos();
 
@@ -238,10 +255,19 @@ void navigate()
 
 	        else if(ch==58)
 	        {
-	        	// int lastLine = rowsize + 1;
-	        	// printf("%c[%d;%dH",esc,lastLine,ycor)
-	        	// cout<<"-----NORMAL MODE-----"
-
+	        	int lastLine = rowsize + 1;
+	        	posx(lastLine);
+	        	printf("%c[2K", 27);
+	        	//newrsettings=initialrsettings;
+	        	//newrsettings.c_lflag &= ~ICANON;
+	        	//newrsettings.c_lflag &= ~ECHO;
+	        	//tcsetattr(fileno(stdin), TCSAFLUSH, &newrsettings);
+	        	cout<<":";
+	        	//cout<<"going into command mode :"<<endl;
+	        	startCommandMode();
+	        	xcor=1;
+	        	pos();
+	        	openDirecoty(curPath);
 	        }
 
 		}

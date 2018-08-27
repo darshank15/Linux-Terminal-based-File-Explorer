@@ -1,5 +1,5 @@
 /************************************************************************
-**      This File is for includeing all headre file ,extern            **    
+**      This File is for includeing all header file ,extern            **    
 **      variables and global function required by other cpp files.     **
 **                                                                     **
 ************************************************************************/
@@ -43,3 +43,4 @@ void openDirecoty(const char *path);
 void display(const char *dirName, const char *root);
 int getFilePrintingcount();
 void navigate();
+void startCommandMode();
