@@ -1,5 +1,60 @@
 #include "myheader.h"
 
+void copydirectory(char *path, char *des)
+{
+	int status= mkdir(des,S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+	 if(-1 == status)
+	 {
+	 	showError("Error in creating the Directory in path :::::  "+string(path));
+	 }
+
+	DIR *d;
+	struct dirent *dir;
+	d = opendir(path);
+	if (d) 
+	{
+
+	    while ((dir = readdir(d)) != NULL) 
+	    {
+	 
+		      if( (string(dir->d_name) == "..") || (string(dir->d_name) == ".") )	
+		      {   } 
+		  	  else
+		  	  {		
+		  	  		string finalpath=string(path) + "/" +string(dir->d_name);
+					char* newpath = new char[finalpath.length() + 1];
+					strcpy(newpath, finalpath.c_str());
+
+					string finaldestpath=string(des) + "/" +string(dir->d_name);
+					char* newdestpath = new char[finaldestpath.length() + 1];
+					strcpy(newdestpath, finaldestpath.c_str());
+
+		  			struct stat sb;
+					if (stat(newpath,&sb) == -1) {
+				        perror("lstat");
+				    }
+				    else{
+
+				    	if((S_ISDIR(sb.st_mode)))
+					    {
+					    	copydirectory(newpath,newdestpath);
+					    }
+					    else
+					    {
+					    	 copyfile(newpath,newdestpath);
+					    }
+				    }
+		  	  		
+		  	  }
+
+	    }
+
+	}
+	else{
+		showError("No such Directory Exist !!!");
+	}
+}
+
 void copyfile(char *path, char *des)
 {
 	cout<<"\nsource path : "<<path<<endl;
@@ -41,7 +96,7 @@ void copycommand(vector<string> list)
 			pos = newData.find_last_of("/\\");
 			name = newData.substr(pos+1,newData.length());
 			cout<<"\nfilename : "<<name;
-			
+
 			string destpath= list[len-1];
 			destpath =destpath + "/" + name;
 			char *des = new char[destpath.length() + 1];
@@ -52,7 +107,7 @@ void copycommand(vector<string> list)
 			strcpy(path, newData.c_str());
 			if(isdirectory(path))
 			{
-				//copydirectory(path,des);
+				copydirectory(path,des);
 			}
 			else
 			{

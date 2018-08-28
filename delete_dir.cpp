@@ -19,7 +19,7 @@ void removeSingleDirectory(char *path)
 		      {   } 
 		  	  else
 		  	  {		
-		  	  		string finalpath=string(path) + "/" +string(dir->d_name);;
+		  	  		string finalpath=string(path) + "/" +string(dir->d_name);
 					char* newpath = new char[finalpath.length() + 1];
 					strcpy(newpath, finalpath.c_str());
 

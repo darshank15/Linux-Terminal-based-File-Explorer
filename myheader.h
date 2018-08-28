@@ -62,6 +62,6 @@ void removeSingleFile(char *path);
 void renameFiles(vector<string> list);
 string gotoPath(vector<string> list);
 void copycommand(vector<string> list);
-//void copydirectory(char *path,char *des);
+void copydirectory(char *path,char *des);
 void copyfile(char *path,char *des);
 void showError(string str);
