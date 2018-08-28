@@ -59,9 +59,11 @@ void copyfile(char *path, char *des)
 {
 	cout<<"\nsource path : "<<path<<endl;
 	cout<<"\ndestination path :"<<des<<endl;
+
 	char block[1024];
 	int in, out;
 	int nread;
+	
 	in = open(path, O_RDONLY);
 	out = open(des, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR);
 	while((nread = read(in,block,sizeof(block))) > 0)
@@ -72,6 +74,7 @@ void copyfile(char *path, char *des)
     }
     if (stat(des,&deststat) != -1) {  
     }
+    
     int status1=chown(des,sourcestat.st_uid, sourcestat.st_gid);
     int status2=chmod(des,sourcestat.st_mode);
 
@@ -90,11 +93,7 @@ void copycommand(vector<string> list)
 		for(unsigned int i=1;i<len-1;i++)
 		{
 			string newData = list[i];
-			cout<<"\nnewData : "<<newData<<endl;
-			string name;
-			size_t pos;
-			pos = newData.find_last_of("/\\");
-			name = newData.substr(pos+1,newData.length());
+			string name = getFileNameFromPath(newData);
 			cout<<"\nfilename : "<<name;
 
 			string destpath= list[len-1];

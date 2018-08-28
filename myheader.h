@@ -48,6 +48,7 @@ int getFilePrintingcount();
 void navigate();
 
 int isdirectory(char *newpath);
+string getFileNameFromPath(string newDataw);
 
 void startCommandMode();
 void clearCommand();
@@ -64,4 +65,5 @@ string gotoPath(vector<string> list);
 void copycommand(vector<string> list);
 void copydirectory(char *path,char *des);
 void copyfile(char *path,char *des);
+void movecommand(vector<string> list);
 void showError(string str);

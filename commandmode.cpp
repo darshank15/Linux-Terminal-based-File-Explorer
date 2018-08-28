@@ -134,7 +134,8 @@ void startCommandMode()
 			}
 			else if(command == "move")
 			{
-				cout<<"Move command  : "<<endl;
+				//cout<<"Move command  : "<<endl;
+				movecommand(tokens);
 			}
 			else if(command == "rename")
 			{

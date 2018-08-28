@@ -40,6 +40,17 @@ int isdirectory(char *newpath)
     return -1;
 }
 
+string getFileNameFromPath(string newData)
+{
+	string name;
+	size_t pos;
+	pos = newData.find_last_of("/\\");
+	name = newData.substr(pos+1,newData.length());
+	//cout<<"\nfilename : "<<name;
+	return name;
+
+}
+
 void showError(string str)
 {
 	clearCommand();
