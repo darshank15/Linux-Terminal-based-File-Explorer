@@ -43,4 +43,7 @@ void openDirecoty(const char *path);
 void display(const char *dirName, const char *root);
 int getFilePrintingcount();
 void navigate();
+
 void startCommandMode();
+void makeDirectory(vector<string> list);
+void removeDirectory(vector<string> list);

@@ -5,6 +5,9 @@
 
 vector<string> tokens;
 
+//**********************************************************************
+// It splits input string into tokens separeted by space
+//**********************************************************************
 void inputProcessing(string str)
 {
 	
@@ -27,6 +30,17 @@ void inputProcessing(string str)
 	// 	cout<<"   tokens : "<<tokens[i];
 	// }
 
+}
+
+//**********************************************************************
+// After each command runs, it clear command line area
+//**********************************************************************
+void clearCommand()
+{
+	int lastLine = rowsize + 1;
+	printf("%c[%d;%dH",27,lastLine,1);
+	printf("%c[2K", 27);
+	cout<<":";
 }
 
 //**********************************************************************
@@ -65,7 +79,9 @@ void startCommandMode()
 			}
 			else if(command == "create_dir")
 			{
-				cout<<"create_dir command  : "<<endl;
+				//cout<<"create_dir command  : "<<endl;
+				makeDirectory(tokens);
+				clearCommand();
 			}
 			else if(command == "delete_file")
 			{
@@ -73,7 +89,9 @@ void startCommandMode()
 			}
 			else if(command == "delete_dir")
 			{
-				cout<<"delete_dir command  : "<<endl;
+				//cout<<"delete_dir command  : "<<endl;
+				removeDirectory(tokens);
+				clearCommand();
 			}
 			else if(command == "goto")
 			{
