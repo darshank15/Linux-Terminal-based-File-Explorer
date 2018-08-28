@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -Wall 
 DEPS = myheader.h 
-OBJ = mydirectoryfunction.o navigate.o scrolling.o commandmode.o create_dir.o delete_dir.o delete_file.o main.o
+OBJ = mydirectoryfunction.o navigate.o scrolling.o commandmode.o create_dir.o delete_dir.o create_delete_files.o extra_utility.o main.o
 %.o: %.cpp $(DEPS)
 	$(CC) $(CFLAGS) -c -o $@ $<
 

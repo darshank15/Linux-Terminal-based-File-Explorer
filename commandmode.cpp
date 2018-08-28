@@ -102,9 +102,26 @@ void startCommandMode()
 		string input;
 		while(((ch = getchar())!= 10) && ch!=27)
 		{
-			input = input + ch;
-			cout<<ch;
+			if(ch==127)
+			{
+				clearCommand();
+				if(input.length()<=1)
+				{
+					input="";
+				}
+				else{
+					input = input.substr(0,input.length()-1);
+				}
+				cout<<input;
+				
+			}
+			else{
+				input = input + ch;
+				cout<<ch;	
+			}
+			
 		}
+		//cout<<"\n ch :::"<<(int)ch<<endl;
 		//cout<<"\ninput : "<<input<<endl;
 		inputProcessing(input);
 		if(ch==10)
@@ -120,39 +137,50 @@ void startCommandMode()
 			}
 			else if(command == "rename")
 			{
-				cout<<"rename command  : "<<endl;
+				//cout<<"rename command  : "<<endl;
+				renameFiles(tokens);
+				clearCommand();
 			}
 			else if(command == "create_file")
 			{
-				cout<<"create_file command  : "<<endl;
+				//cout<<"create_file command  : "<<endl;
 				createNewFiles(tokens);
-				//clearCommand();
+				clearCommand();
 			}
 			else if(command == "create_dir")
 			{
 				//cout<<"create_dir command  : "<<endl;
 				makeDirectories(tokens);
-				//clearCommand();
+				clearCommand();
 			}
 			else if(command == "delete_file")
 			{
 				//cout<<"delete_file command  : "<<endl;
 				removeFiles(tokens);
-				//clearCommand();
+				clearCommand();
 			}
 			else if(command == "delete_dir")
 			{
 				//cout<<"delete_dir command  : "<<endl;
 				removeDirectories(tokens);
-				//clearCommand();
+				clearCommand();
 			}
 			else if(command == "goto")
 			{
 				cout<<"goto command  : "<<endl;
+				string gpath = gotoPath(tokens);
+				char *path = new char[gpath.length() + 1];
+		 		strcpy(path, gpath.c_str());
+		 		curPath = path;
+		 		break;
 			}
 			else if(command == "search")
 			{
 				cout<<"search command  : "<<endl;
+			}
+			else{
+				cout<<"Invalid Command  !!!"<<endl;
+				clearCommand();
 			}
 		}	
 

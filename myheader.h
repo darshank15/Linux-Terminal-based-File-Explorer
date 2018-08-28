@@ -13,6 +13,7 @@
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -47,6 +48,7 @@ int getFilePrintingcount();
 void navigate();
 
 void startCommandMode();
+void clearCommand();
 string pathProcessing(string str);
 void createNewFiles(vector<string> list);
 void createSingleFile(char *path);
@@ -55,3 +57,6 @@ void removeDirectories(vector<string> list);
 void removeSingleDirectory(char *path);
 void removeFiles(vector<string> list);
 void removeSingleFile(char *path);
+void renameFiles(vector<string> list);
+string gotoPath(vector<string> list);
+void showError(string str);

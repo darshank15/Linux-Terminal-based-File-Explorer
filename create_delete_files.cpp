@@ -5,7 +5,7 @@
 //**********************************************************************
 void removeSingleFile(char *path)
 {
-	//cout<<"path for deleting file : "<<path<<endl;
+	cout<<"path for deleting file : "<<path<<endl;
 	int status= remove(path);
 	 if(status != 0)
 	 {
@@ -30,16 +30,46 @@ void removeFiles(vector<string> list)
 void createSingleFile(char *path)
 {
 		cout<<"\ncreateSingleFile path : "<<path<<endl;
-		open(path,O_RDWR); 
+		int status=open(path,O_RDONLY | O_CREAT,S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH ); 	
+		if (status ==-1)
+	    {
+	        printf("Error in creating new file path ::::: %s ",path); 
+	        perror("Program");                 
+	    }
 }
 
 void createNewFiles(vector<string> list)
 {
 
-	for(unsigned int i=1;i<list.size();i++)
+	if(list.size() < 3)
 	{
-		 char *path = new char[list[i].length() + 1];
-		 strcpy(path, list[i].c_str());
+		showError("Less Number of Argument in Renaming !!!");
+		return ;
+	}
+	unsigned int len=list.size();
+	string destpath= pathProcessing(list[len-1]);
+	cout<<"\ndestpath : "<<destpath<<endl;
+	for(unsigned int i=1;i<len-1;i++)
+	{
+		 string fileName = destpath + "/" + list[i];
+		 char *path = new char[fileName.length() + 1];
+		 strcpy(path, fileName.c_str());
 		 createSingleFile(path);
-	}			
+		 
+	}
+		
+}
+
+void renameFiles(vector<string> list)
+{
+	if(list.size()!=3)
+	{
+		showError("Invalid Argument in Renaming !!!");
+	}
+	else{
+		string initName = list[1];
+		string finalName = list[2];
+		rename(initName.c_str(),finalName.c_str());
+	}
+	
 }
