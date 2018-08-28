@@ -11,7 +11,7 @@ string gotoPath(vector<string> list)
 		string str="";
 		if(list.size()!=2)
 		{
-			cout<<"\nInvalid Argument in Goto :::::"<<endl;
+			showError("Invalid Argument in Goto");
 		}
 		else{
 			str= list[1];

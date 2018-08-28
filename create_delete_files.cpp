@@ -5,11 +5,11 @@
 //**********************************************************************
 void removeSingleFile(char *path)
 {
-	cout<<"path for deleting file : "<<path<<endl;
+	//cout<<"path for deleting file : "<<path<<endl;
 	int status= remove(path);
 	 if(status != 0)
 	 {
-	 	printf("\nError in removing the File with path ::::: %s",path);
+	 	showError("Error in removing the File with path ::::: "+string(path));
 	 }
 	
 }
@@ -18,7 +18,11 @@ void removeSingleFile(char *path)
 // It removes multiple files that passed by User in argument
 //**********************************************************************
 void removeFiles(vector<string> list)
-{
+{	
+	if(list.size()<2)
+	{
+		 showError("Less number of Argument in delete_file command");
+	}
 	for(unsigned int i=1;i<list.size();i++)
 	{
 		 char *path = new char[list[i].length() + 1];
@@ -33,8 +37,7 @@ void createSingleFile(char *path)
 		int status=open(path,O_RDONLY | O_CREAT,S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH ); 	
 		if (status ==-1)
 	    {
-	        printf("Error in creating new file path ::::: %s ",path); 
-	        perror("Program");                 
+			 showError("Error in creating new file path :::::  " + string(path));	       
 	    }
 }
 

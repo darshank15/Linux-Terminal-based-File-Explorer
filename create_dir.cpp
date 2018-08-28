@@ -26,7 +26,7 @@ void makeDirectories(vector<string> list)
 			 int status= mkdir(path,S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 			 if(-1 == status)
 			 {
-			 	printf("Error in creating the Directory in path ::::: %s ",path);
+			 	showError("Error in creating the Directory in path :::::  "+string(path));
 			 }
 		}	
 	}
