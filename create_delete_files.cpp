@@ -33,9 +33,9 @@ void removeFiles(vector<string> list)
 
 void createSingleFile(char *path)
 {
-		cout<<"\ncreateSingleFile path : "<<path<<endl;
+		//cout<<"\ncreateSingleFile path : "<<path<<endl;
 		int status=open(path,O_RDONLY | O_CREAT,S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH ); 	
-		if (status ==-1)
+		if (status == -1)
 	    {
 			 showError("Error in creating new file path :::::  " + string(path));	       
 	    }
@@ -51,7 +51,7 @@ void createNewFiles(vector<string> list)
 	}
 	unsigned int len=list.size();
 	string destpath= pathProcessing(list[len-1]);
-	cout<<"\ndestpath : "<<destpath<<endl;
+	//cout<<"\ndestpath : "<<destpath<<endl;
 	for(unsigned int i=1;i<len-1;i++)
 	{
 		 string fileName = destpath + "/" + list[i];

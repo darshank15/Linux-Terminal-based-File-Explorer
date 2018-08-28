@@ -52,7 +52,6 @@ void removeSingleDirectory(char *path)
 
 	}
 	else{
-		
 		showError("No such Directory Exist !!!");
 	}
 

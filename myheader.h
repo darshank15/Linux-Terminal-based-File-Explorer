@@ -47,6 +47,8 @@ void display(const char *dirName, const char *root);
 int getFilePrintingcount();
 void navigate();
 
+int isdirectory(char *newpath);
+
 void startCommandMode();
 void clearCommand();
 string pathProcessing(string str);
@@ -59,4 +61,7 @@ void removeFiles(vector<string> list);
 void removeSingleFile(char *path);
 void renameFiles(vector<string> list);
 string gotoPath(vector<string> list);
+void copycommand(vector<string> list);
+//void copydirectory(char *path,char *des);
+void copyfile(char *path,char *des);
 void showError(string str);

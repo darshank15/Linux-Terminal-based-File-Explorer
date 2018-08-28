@@ -19,6 +19,27 @@ string gotoPath(vector<string> list)
 		return str;
 }
 
+int isdirectory(char *newpath)
+{
+	struct stat sb;
+	if (stat(newpath,&sb) == -1) {
+        perror("lstat");
+    }
+    else
+    {
+    	if((S_ISDIR(sb.st_mode)))
+	    {
+	    	return 1;
+	    }
+	    else
+	    {
+	    	return 0;
+	    }
+    }
+
+    return -1;
+}
+
 void showError(string str)
 {
 	clearCommand();

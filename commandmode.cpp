@@ -129,7 +129,8 @@ void startCommandMode()
 			string command= tokens[0];
 			if(command == "copy")
 			{
-				cout<<"Copy command  : "<<endl;
+				//cout<<"Copy command  : "<<endl;
+				copycommand(tokens);
 			}
 			else if(command == "move")
 			{
