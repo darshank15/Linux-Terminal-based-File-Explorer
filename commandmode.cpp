@@ -6,6 +6,40 @@
 vector<string> tokens;
 
 //**********************************************************************
+// It handles absolute and relative paths in cmd mode
+//**********************************************************************
+string pathProcessing(string str)
+{
+	char firstchar = str[0];
+	// cout<<"curPath : "<<curPath<<endl;
+	// cout<<"root :" <<root<<endl;
+	// cout<<"given path  : "<<str<<endl;
+	// cout<<"firstchar: "<<firstchar<<endl;
+	string absolutePath="";
+	string basepath = string(root);
+	if(firstchar =='/')
+	{
+		
+		absolutePath = basepath + str;
+	}
+	else if(firstchar=='~')
+	{
+		absolutePath = basepath + str.substr(1,str.length());
+	}
+	else if(firstchar=='.')
+	{
+		absolutePath = string(curPath) + str.substr(1,str.length());	
+	}
+	else
+	{
+		absolutePath = string(curPath)+ "/" + str;
+	}
+	
+	//cout<<"absolutePath : "<<absolutePath<<endl;
+	return absolutePath;
+}
+
+//**********************************************************************
 // It splits input string into tokens separeted by space
 //**********************************************************************
 void inputProcessing(string str)
@@ -13,6 +47,7 @@ void inputProcessing(string str)
 	
 	unsigned int i=0;
 	tokens.clear();
+	int flag=0;
 	while(i<str.length())
 	{
 		string sub="";
@@ -21,10 +56,24 @@ void inputProcessing(string str)
 			sub += str[i];
 			i++;
 		}
-		tokens.push_back(sub);
+		if(flag==1)
+		{
+			string abspath=pathProcessing(sub);
+			tokens.push_back(abspath);
+		}
+		else{
+
+			tokens.push_back(sub);
+			if(tokens[0]!="create_file" && tokens[0]!="create_dir")
+			{
+				flag=1;	
+			}
+			
+		}
 		i++;	
 	}
 	
+	//see the list of commands in vector
 	// for(unsigned int i=0;i<tokens.size();i++)
 	// {
 	// 	cout<<"   tokens : "<<tokens[i];
@@ -56,7 +105,7 @@ void startCommandMode()
 			input = input + ch;
 			cout<<ch;
 		}
-		//cout<<"input : "<<input;
+		//cout<<"\ninput : "<<input<<endl;
 		inputProcessing(input);
 		if(ch==10)
 		{
@@ -76,22 +125,26 @@ void startCommandMode()
 			else if(command == "create_file")
 			{
 				cout<<"create_file command  : "<<endl;
+				createNewFiles(tokens);
+				//clearCommand();
 			}
 			else if(command == "create_dir")
 			{
 				//cout<<"create_dir command  : "<<endl;
-				makeDirectory(tokens);
-				clearCommand();
+				makeDirectories(tokens);
+				//clearCommand();
 			}
 			else if(command == "delete_file")
 			{
-				cout<<"delete_file command  : "<<endl;
+				//cout<<"delete_file command  : "<<endl;
+				removeFiles(tokens);
+				//clearCommand();
 			}
 			else if(command == "delete_dir")
 			{
 				//cout<<"delete_dir command  : "<<endl;
-				removeDirectory(tokens);
-				clearCommand();
+				removeDirectories(tokens);
+				//clearCommand();
 			}
 			else if(command == "goto")
 			{

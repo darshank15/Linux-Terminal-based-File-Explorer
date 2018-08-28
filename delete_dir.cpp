@@ -9,7 +9,7 @@ void removeSingleDirectory(char *path)
 	int status= rmdir(path);
 	 if(-1 == status)
 	 {
-	 	printf("\nError in removing the Directory with path ::: %s",path);
+	 	printf("\nError in removing the Directory with path ::::: %s",path);
 	 }
 	
 }
@@ -17,12 +17,13 @@ void removeSingleDirectory(char *path)
 //**********************************************************************
 // It removes multiple directory that passed by User in argument
 //**********************************************************************
-void removeDirectory(vector<string> list)
+void removeDirectories(vector<string> list)
 {
 	for(unsigned int i=1;i<list.size();i++)
 	{
 		 char *path = new char[list[i].length() + 1];
 		 strcpy(path, list[i].c_str());
+		 cout<<"\nrmdir path :"<<path<<endl;
 		 removeSingleDirectory(path);
 	}	 
 }
