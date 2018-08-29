@@ -66,4 +66,6 @@ void copycommand(vector<string> list);
 void copydirectory(char *path,char *des);
 void copyfile(char *path,char *des);
 void movecommand(vector<string> list);
+void takesnapshot(vector<string> list);
+void takeDirSnapshot(char *path, char *dump);
 void showError(string str);

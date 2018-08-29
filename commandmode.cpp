@@ -131,11 +131,13 @@ void startCommandMode()
 			{
 				//cout<<"Copy command  : "<<endl;
 				copycommand(tokens);
+				clearCommand();
 			}
 			else if(command == "move")
 			{
 				//cout<<"Move command  : "<<endl;
 				movecommand(tokens);
+				clearCommand();
 			}
 			else if(command == "rename")
 			{
@@ -179,6 +181,13 @@ void startCommandMode()
 			else if(command == "search")
 			{
 				cout<<"search command  : "<<endl;
+				
+			}
+			else if(command == "snapshot")
+			{
+				cout<<"snapshot command  : "<<endl;
+				takesnapshot(tokens);
+				
 			}
 			else{
 				cout<<"Invalid Command  !!!"<<endl;

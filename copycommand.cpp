@@ -57,8 +57,8 @@ void copydirectory(char *path, char *des)
 
 void copyfile(char *path, char *des)
 {
-	cout<<"\nsource path : "<<path<<endl;
-	cout<<"\ndestination path :"<<des<<endl;
+	//cout<<"\nsource path : "<<path<<endl;
+	//cout<<"\ndestination path :"<<des<<endl;
 
 	char block[1024];
 	int in, out;
@@ -94,13 +94,13 @@ void copycommand(vector<string> list)
 		{
 			string newData = list[i];
 			string name = getFileNameFromPath(newData);
-			cout<<"\nfilename : "<<name;
+			//cout<<"\nfilename : "<<name;
 
 			string destpath= list[len-1];
 			destpath =destpath + "/" + name;
 			char *des = new char[destpath.length() + 1];
 			strcpy(des, destpath.c_str());
-			cout<<"\ndespath in copy : "<<des<<endl;
+			//cout<<"\ndespath in copy : "<<des<<endl;
 	
 			char *path = new char[newData.length() + 1];
 			strcpy(path, newData.c_str());
