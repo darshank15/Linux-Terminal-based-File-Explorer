@@ -128,8 +128,9 @@ int searchcommand(vector<string> list)
 			back_stack.push(string(curPath));
 			clearStack(forw_stack);
 
-			string emptypath = "";
-			strcpy(curPath, emptypath.c_str());
+			// string emptypath = "";
+			// strcpy(curPath, emptypath.c_str());
+			searchflag=1;
 
 			dirList.clear();
 			dirList = searchResult;

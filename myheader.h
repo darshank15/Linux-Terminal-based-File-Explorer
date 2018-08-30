@@ -35,7 +35,7 @@ using namespace std;
 //**********************************************************************
 extern char *root;
 extern char* curPath;
-extern char* pathbeforeSearch;
+extern int searchflag;
 extern vector< string > dirList;
 extern stack <string> back_stack;
 extern stack <string> forw_stack;

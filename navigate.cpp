@@ -12,7 +12,7 @@
 //**********************************************************************
 unsigned int xcor = 1, ycor = 1;
 char *curPath;
-char *pathbeforeSearch;
+int searchflag;
 #define esc 27
 #define cls printf("%c[2J", esc)
 #define pos() printf("%c[%d;%dH", esc, xcor, ycor)
@@ -151,7 +151,7 @@ void navigate()
 					if (!forw_stack.empty())
 					{
 						string cpath = string(curPath);
-						if (cpath != "")
+						if(searchflag!=1)
 							back_stack.push(string(curPath));
 						string top = forw_stack.top();
 						forw_stack.pop();
@@ -167,7 +167,7 @@ void navigate()
 					if (!back_stack.empty())
 					{
 						string cpath = string(curPath);
-						if (cpath != "")
+						if(searchflag!=1)
 							forw_stack.push(string(curPath));
 						string top = back_stack.top();
 						back_stack.pop();
@@ -184,7 +184,7 @@ void navigate()
 			else if (ch == 104 || ch == 72)
 			{
 				string cpath = string(curPath);
-				if (cpath != "")
+				if(searchflag!=1)
 					back_stack.push(string(curPath));
 				clearStack(forw_stack);
 				strcpy(curPath, root);
@@ -195,7 +195,7 @@ void navigate()
 			{
 				//cout<<"*************curPathr"<<curPath<<"***********";
 				string cpath = string(curPath);
-				if ((strcmp(curPath, root) != 0) && cpath != "")
+				if ((strcmp(curPath, root) != 0) && searchflag!=1)
 				{
 					//cout<<"**************Root : "<<root<<"***********";
 					back_stack.push(curPath);
@@ -211,8 +211,7 @@ void navigate()
 				string curDir = dirList[xcor + wintrack - 1];
 				//cout<<"********CurDir/file  : "<<curDir<<endl;
 				string fullPath;
-				string cpath = string(curPath);
-				if (cpath == "")
+				if(searchflag==1)
 				{
 					fullPath = curDir;
 				}
@@ -233,7 +232,7 @@ void navigate()
 				{
 					//cout<<"DIR"<<endl;
 					xcor = 1;
-
+					searchflag=0;
 					if (curDir == string("."))
 					{
 					}
@@ -258,12 +257,13 @@ void navigate()
 				//If file type is Regular File
 				else if ((sb.st_mode & S_IFMT) == S_IFREG)
 				{
-					string cmd = "xdg-open " + string(path);
-					char *filepath = new char[cmd.length() + 1];
-					strcpy(filepath, cmd.c_str());
 					//cout<<"**************File Path : "<<filepath<<"***************"<<endl;
-					system(filepath);
-					//cout<<"FILE"<<endl;
+					pid_t processID = fork();
+					if(processID == 0)
+					{
+						execlp("xdg-open","xdg-open",path,NULL);
+						exit(0);
+					} 
 				}
 				else
 				{
@@ -279,14 +279,6 @@ void navigate()
 				printf("%c[2K", 27);
 				cout << ":";
 				//cout<<"going into command mode :"<<endl;
-				string ccpath = string(curPath);
-				//cout<<"curpath Search *********"<<ccpath;
-				if (ccpath != "")
-				{
-					//cout<<"entered";
-					pathbeforeSearch = curPath;
-				}
-
 				int result = startCommandMode();
 				xcor = 1;
 				pos();
@@ -301,13 +293,7 @@ void navigate()
 				}
 				else
 				{
-					//cout<<"normal exit";
-					//cout<<"PathBefore Search : "<<pathbeforeSearch;
-					string cpath = string(curPath);
-					if (cpath == "")
-						openDirecoty(pathbeforeSearch);
-					else
-						openDirecoty(curPath);
+					openDirecoty(curPath);
 				}
 			}
 		}
