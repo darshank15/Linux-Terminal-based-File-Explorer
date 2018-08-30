@@ -1,3 +1,7 @@
+/************************************************************************
+**      RollNo:2018201033          Name : Darshan Kansagara			   **
+************************************************************************/
+
 //**********************************************************************
 // Header file Included
 //**********************************************************************
@@ -275,6 +279,14 @@ void navigate()
 				printf("%c[2K", 27);
 				cout << ":";
 				//cout<<"going into command mode :"<<endl;
+				string ccpath = string(curPath);
+				//cout<<"curpath Search *********"<<ccpath;
+				if (ccpath != "")
+				{
+					//cout<<"entered";
+					pathbeforeSearch = curPath;
+				}
+
 				int result = startCommandMode();
 				xcor = 1;
 				pos();
@@ -290,7 +302,12 @@ void navigate()
 				else
 				{
 					//cout<<"normal exit";
-					openDirecoty(curPath);
+					//cout<<"PathBefore Search : "<<pathbeforeSearch;
+					string cpath = string(curPath);
+					if (cpath == "")
+						openDirecoty(pathbeforeSearch);
+					else
+						openDirecoty(curPath);
 				}
 			}
 		}

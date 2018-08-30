@@ -1,5 +1,15 @@
+/************************************************************************
+** RollNo:2018201033  Name : Darshan Kansagara						   **
+************************************************************************/
+
+//**********************************************************************
+// Header File included
+//**********************************************************************
 #include "myheader.h"
 
+//**********************************************************************
+// This function recursively copy all files/dir into destination path
+//**********************************************************************
 void copydirectory(char *path, char *des)
 {
 	int status= mkdir(des,S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -55,6 +65,9 @@ void copydirectory(char *path, char *des)
 	}
 }
 
+//**********************************************************************
+// This function used to copy files at specify Destination
+//**********************************************************************
 void copyfile(char *path, char *des)
 {
 	//cout<<"\nsource path : "<<path<<endl;
@@ -76,10 +89,20 @@ void copyfile(char *path, char *des)
     }
     
     int status1=chown(des,sourcestat.st_uid, sourcestat.st_gid);
+	if(status1!=0)
+		showError("Error in setting ownership of file using chown");
+
     int status2=chmod(des,sourcestat.st_mode);
+	if(status2!=0)
+		showError("Error in setting permission of file using chmod");
+
 
 
 }
+
+//**********************************************************************
+// This Function handle copy cmd argument specified by user
+//**********************************************************************
 void copycommand(vector<string> list)
 {
 	unsigned int len = list.size();

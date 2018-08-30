@@ -1,3 +1,7 @@
+/************************************************************************
+**      RollNo:2018201033          Name : Darshan Kansagara			   **
+************************************************************************/
+
 //**********************************************************************
 // Header file Included
 //**********************************************************************
@@ -19,6 +23,9 @@ string gotoPath(vector<string> list)
 		return str;
 }
 
+//**********************************************************************
+// This Function returns whether given path is of directory or file
+//**********************************************************************
 int isdirectory(char *newpath)
 {
 	struct stat sb;
@@ -40,6 +47,9 @@ int isdirectory(char *newpath)
     return -1;
 }
 
+//**********************************************************************
+// This Function extract filename from its full path
+//**********************************************************************
 string getFileNameFromPath(string newData)
 {
 	string name;
@@ -50,6 +60,9 @@ string getFileNameFromPath(string newData)
 	return name;
 }
 
+//**********************************************************************
+// This Function used to display error in Red Formate
+//**********************************************************************
 void showError(string str)
 {
 	clearCommand();

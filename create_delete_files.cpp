@@ -1,3 +1,7 @@
+/************************************************************************
+** RollNo:2018201033  Name : Darshan Kansagara						   **
+************************************************************************/
+
 #include "myheader.h"
 
 //**********************************************************************
@@ -31,6 +35,9 @@ void removeFiles(vector<string> list)
 	}	 
 }
 
+//**********************************************************************
+// This Function used to create file in given path
+//**********************************************************************
 void createSingleFile(char *path)
 {
 		//cout<<"\ncreateSingleFile path : "<<path<<endl;
@@ -41,6 +48,9 @@ void createSingleFile(char *path)
 	    }
 }
 
+//**********************************************************************
+// This function is used to create multiple files as given by user
+//**********************************************************************
 void createNewFiles(vector<string> list)
 {
 
