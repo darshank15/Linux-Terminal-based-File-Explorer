@@ -73,6 +73,9 @@ void createNewFiles(vector<string> list)
 		
 }
 
+//**********************************************************************
+// This Function rename the file/Dir
+//**********************************************************************
 void renameFiles(vector<string> list)
 {
 	if(list.size()!=3)

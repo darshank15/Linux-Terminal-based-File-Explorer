@@ -15,15 +15,10 @@ vector<string> tokens;
 string pathProcessing(string str)
 {
 	char firstchar = str[0];
-	// cout<<"curPath : "<<curPath<<endl;
-	// cout<<"root :" <<root<<endl;
-	// cout<<"given path  : "<<str<<endl;
-	// cout<<"firstchar: "<<firstchar<<endl;
 	string absolutePath="";
 	string basepath = string(root);
 	if(firstchar =='/')
 	{
-		
 		absolutePath = basepath + str;
 	}
 	else if(firstchar=='~')
@@ -38,8 +33,7 @@ string pathProcessing(string str)
 	{
 		absolutePath = string(curPath)+ "/" + str;
 	}
-	
-	//cout<<"absolutePath : "<<absolutePath<<endl;
+
 	return absolutePath;
 }
 
@@ -85,12 +79,6 @@ void inputProcessing(string str)
 		}
 		i++;	
 	}
-	
-	// //see the list of commands in vector
-	// for(unsigned int i=0;i<tokens.size();i++)
-	// {
-	// 	cout<<"   tokens : "<<tokens[i];
-	// }
 
 }
 
@@ -134,8 +122,6 @@ int startCommandMode()
 			}
 			
 		}
-		//cout<<"\n ch :::"<<(int)ch<<endl;
-		//cout<<"\ninput : "<<input<<endl;
 		inputProcessing(input);
 		if(ch==10)
 		{

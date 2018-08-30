@@ -23,10 +23,8 @@ void copydirectory(char *path, char *des)
 	d = opendir(path);
 	if (d) 
 	{
-
 	    while ((dir = readdir(d)) != NULL) 
-	    {
-	 
+	    {	 
 		      if( (string(dir->d_name) == "..") || (string(dir->d_name) == ".") )	
 		      {   } 
 		  	  else
@@ -56,9 +54,7 @@ void copydirectory(char *path, char *des)
 				    }
 		  	  		
 		  	  }
-
 	    }
-
 	}
 	else{
 		showError("No such Directory Exist !!!");
@@ -111,8 +107,7 @@ void copycommand(vector<string> list)
 		showError("Less number of Argument in copy command !!!");
 	}
 	else{
-
-		
+			
 		for(unsigned int i=1;i<len-1;i++)
 		{
 			string newData = list[i];

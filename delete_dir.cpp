@@ -15,10 +15,8 @@ void removeSingleDirectory(char *path)
 	d = opendir(path);
 	if (d) 
 	{
-
 	    while ((dir = readdir(d)) != NULL) 
 	    {
-	 
 		      if( (string(dir->d_name) == "..") || (string(dir->d_name) == ".") )	
 		      {   } 
 		  	  else
@@ -41,10 +39,8 @@ void removeSingleDirectory(char *path)
 					    {
 					    	removeSingleFile(newpath);
 					    }
-				    }
-		  	  		
+				    }		
 		  	  }
-
 	    }
 	    closedir(d);
 	    int status= rmdir(path);
@@ -52,14 +48,10 @@ void removeSingleDirectory(char *path)
 		{
 		 	showError("Error in removing the Directory with path ::::: "+string(path));
 		}
-
-
 	}
 	else{
 		showError("No such Directory Exist !!!");
 	}
-
-
 }
 
 //**********************************************************************

@@ -3,6 +3,11 @@
 ************************************************************************/
 
 //**********************************************************************
+// This File is used to navigate through using arrow key,Home,Enter
+// backspace and allow scrolling through list
+//**********************************************************************
+
+//**********************************************************************
 // Header file Included
 //**********************************************************************
 #include "myheader.h"
@@ -267,11 +272,10 @@ void navigate()
 				}
 				else
 				{
-					cout << "unknown?" << endl;
-					cout << "****************************" << endl;
+					showError("Unknown File !!! :::::"+string(curDir));
 				}
 			}
-
+			//If : pressed , went into command mode
 			else if (ch == 58)
 			{
 				int lastLine = rowsize + 1;

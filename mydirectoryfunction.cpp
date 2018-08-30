@@ -26,7 +26,6 @@ int getDirectoryCount(const char *path)
 	d = opendir(path);
 	if (d)
 	{
-
 		while ((dir = readdir(d)) != NULL)
 		{
 			//printf("\n%-10s", dir->d_name);
@@ -53,6 +52,13 @@ int getDirectoryCount(const char *path)
 //************************************************************************
 void openDirecoty(const char *path)
 {
+	DIR *d;
+	d = opendir(path);
+	if (!d)
+	{
+		showError("Ops something wrong !!!");	
+		return;	
+	}
 	//cout << "openDir Path : " << path << endl;
 	dirList.clear();
 	totalFiles = getDirectoryCount(path);

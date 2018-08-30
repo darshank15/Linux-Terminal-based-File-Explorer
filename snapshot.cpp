@@ -29,7 +29,6 @@ void takeDirSnapshot(char *path, char *dump)
 	}
 	while ((dir = readdir(dp)) != NULL)
 	{
-
 		if ((string(dir->d_name) == "..") || (string(dir->d_name) == "."))
 		{
 		}
