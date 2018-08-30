@@ -53,5 +53,6 @@ string getFileNameFromPath(string newData)
 void showError(string str)
 {
 	clearCommand();
-	cout<<str<<endl;
+	cout<<"\033[0;31m"<<str<<endl;
+	cout<<"\033[0m";
 }

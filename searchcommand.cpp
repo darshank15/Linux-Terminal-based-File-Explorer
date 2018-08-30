@@ -2,9 +2,9 @@
 
 vector<string> searchResult;
 
-int isNameMatch(string filename,string name)
+int isNameMatch(string tobesearch,string name)
 {
-	if(filename==name)
+	if(tobesearch==name)
 		return 1;
 	else
 		return 0;	
@@ -80,32 +80,43 @@ void searchanything(char *path,string filename)
 	}
 
 }
-void searchcommand(vector<string> list)
+int searchcommand(vector<string> list)
 {
 	searchResult.clear();
 	unsigned int len = list.size();
 	if(len != 2)
 	{
 		showError("Less number of Argument in copy command !!!");
+		return 0;
 	}
 	else{
 		string filename = list[1];
 		char *path = new char[strlen(curPath) + 1];
 		strcpy(path, curPath);
-		cout<<"\npath : "<<path<<endl;
-		cout<<"\nfilename : "<<filename<<endl;
+		//cout<<"\npath : "<<path<<endl;
+		//cout<<"\nfilename : "<<filename<<endl;
 		searchanything(path,filename);
 		
-		back_stack.push(string(curPath));
-		clearStack(forw_stack);
+		if(searchResult.size() < 1)
+		{
+			showError("No search result found  for file/Dir ::::: "+filename);
+			return 0;
+		}
+		else{
+			back_stack.push(string(curPath));
+			clearStack(forw_stack);
 
-		string emptypath="";
-		strcpy(curPath, emptypath.c_str());
+			string emptypath="";
+			strcpy(curPath, emptypath.c_str());
 
-		dirList.clear();
-		dirList = searchResult;
-		printsearchData();
+			dirList.clear();
+			dirList = searchResult;
+			printsearchData();	
+		}
+		
 	}
+
+	return 1;
 
 }
 

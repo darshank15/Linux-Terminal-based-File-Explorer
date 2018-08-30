@@ -183,9 +183,11 @@ int startCommandMode()
 			}
 			else if(command == "search")
 			{
-				cout<<"search command  : "<<endl;
-				searchcommand(tokens);
-				return 2;
+				//cout<<"search command  : "<<endl;
+				int status=searchcommand(tokens);
+				if(status!=0)
+					return 2;
+				clearCommand();
 				
 			}
 			else if(command == "snapshot")

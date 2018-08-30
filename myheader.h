@@ -10,6 +10,7 @@
 //**********************************************************************
 #include<bits/stdc++.h>
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,7 +24,6 @@
 #include <sys/ioctl.h>
 #include <pwd.h>
 #include <grp.h>
-
 using namespace std;
 
 //**********************************************************************
@@ -69,6 +69,6 @@ void copyfile(char *path,char *des);
 void movecommand(vector<string> list);
 void takesnapshot(vector<string> list);
 void takeDirSnapshot(char *path, char *dump);
-void searchcommand(vector<string> list);
+int searchcommand(vector<string> list);
 void searchanything(char *path,string filename);
 void showError(string str);
