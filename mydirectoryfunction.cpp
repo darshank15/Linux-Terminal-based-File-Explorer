@@ -51,6 +51,7 @@ int getDirectoryCount(const char * path)
 //************************************************************************
 void openDirecoty(const char *path)
 {
+	cout<<"openDir Path : "<<path<<endl;
 	dirList.clear();
 	totalFiles = getDirectoryCount(path);
 	unsigned int len = getFilePrintingcount();

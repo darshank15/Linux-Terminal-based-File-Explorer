@@ -45,12 +45,13 @@ extern int wintrack;
 void openDirecoty(const char *path);
 void display(const char *dirName, const char *root);
 int getFilePrintingcount();
+void clearStack(stack<string> &s);
 void navigate();
 
 int isdirectory(char *newpath);
 string getFileNameFromPath(string newDataw);
 
-void startCommandMode();
+int startCommandMode();
 void clearCommand();
 string pathProcessing(string str);
 void createNewFiles(vector<string> list);
@@ -68,4 +69,6 @@ void copyfile(char *path,char *des);
 void movecommand(vector<string> list);
 void takesnapshot(vector<string> list);
 void takeDirSnapshot(char *path, char *dump);
+void searchcommand(vector<string> list);
+void searchanything(char *path,string filename);
 void showError(string str);

@@ -48,7 +48,6 @@ string getFileNameFromPath(string newData)
 	name = newData.substr(pos+1,newData.length());
 	//cout<<"\nfilename : "<<name;
 	return name;
-
 }
 
 void showError(string str)

@@ -146,7 +146,9 @@ void navigate()
 	        		//cout<<"RIGHT"<<endl;
 	        		if(!forw_stack.empty())
 	        		{
-	        			back_stack.push(string(curPath));
+	        			string cpath = string(curPath);
+	        			if(cpath!="")
+	        				back_stack.push(string(curPath));
 	        			string top = forw_stack.top();
 						forw_stack.pop();
 	        			strcpy(curPath,top.c_str());
@@ -161,7 +163,9 @@ void navigate()
 					//cout<<"LEFT"<<endl;
 	        		if(!back_stack.empty())
 	        		{
-	        			forw_stack.push(string(curPath));
+	        			string cpath = string(curPath);
+	        			if(cpath!="")
+	        				forw_stack.push(string(curPath));
 	        			string top = back_stack.top();
 	        			back_stack.pop();
 	        			strcpy(curPath,top.c_str());
@@ -177,7 +181,9 @@ void navigate()
 	        //If HOME key pressed
 	        else if(ch==104 || ch==72)
 	        {
-	        	back_stack.push(string(curPath));
+	        	string cpath = string(curPath);
+	        	if(cpath!="")
+					back_stack.push(string(curPath));
 	        	clearStack(forw_stack);
 	        	strcpy(curPath,root);
 	        	openDirecoty(curPath);
@@ -185,14 +191,16 @@ void navigate()
 	        //If Back-Space key pressed
 	        else if(ch==127)
 	        {
-	        	if(strcmp(curPath,root) != 0)
+	        	//cout<<"*************curPathr"<<curPath<<"***********";
+	        	string cpath = string(curPath);
+	        	if((strcmp(curPath,root) != 0) && cpath!="")
 	        	{
+		        	//cout<<"**************Root : "<<root<<"***********";
 	        		back_stack.push(curPath);
 	        		clearStack(forw_stack);
 	        		setBackPath(curPath);
 		        	openDirecoty(curPath);
-		        	//cout<<"*************curPathr"<<curPath<<"***********";
-		        	//cout<<"**************Root : "<<root<<"***********";
+		 
 	        	}
 	        	
 
@@ -204,7 +212,16 @@ void navigate()
 	        	//cout<<"********prev curPath : "<<curPath<<endl;
 	        	string curDir = dirList[xcor+wintrack-1];
 	        	//cout<<"********CurDir/file  : "<<curDir<<endl;
-	        	string fullPath = string(curPath) + "/" + curDir;
+	        	string fullPath;
+	        	string cpath=string(curPath);
+	        	if(cpath=="")
+	        	{
+	        		fullPath=curDir;
+	        	}
+	        	else{
+	        		fullPath = string(curPath) + "/" + curDir;
+	        	}
+
 				char* path = new char[fullPath.length() + 1];
 				strcpy(path, fullPath.c_str());
 				//cout<<"**************"<<path<<"************";	
@@ -227,9 +244,11 @@ void navigate()
 	        			
 					}
 					else{
-						
-						back_stack.push(string(curPath));
-						clearStack(forw_stack);
+						if(curPath!=NULL)
+						{
+							back_stack.push(string(curPath));
+							clearStack(forw_stack);
+						}
 						curPath = path;
 	        			
 					}
@@ -264,10 +283,23 @@ void navigate()
 	        	//tcsetattr(fileno(stdin), TCSAFLUSH, &newrsettings);
 	        	cout<<":";
 	        	//cout<<"going into command mode :"<<endl;
-	        	startCommandMode();
+	        	int result =startCommandMode();
 	        	xcor=1;
 	        	pos();
-	        	openDirecoty(curPath);
+	        	if(result == 1)
+	        	{	
+	        		openDirecoty(curPath);
+	        		cout<<"goto out : ";
+	        	}
+	        	else if(result == 2)
+	        	{
+	        		//cout<<"search out : ";
+	        	}
+	        	else{
+	        		openDirecoty(curPath);
+	        		cout<<"normal exit";
+	        	}
+	        	
 	        }
 
 		}

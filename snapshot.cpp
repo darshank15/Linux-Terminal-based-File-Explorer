@@ -67,6 +67,9 @@ void takesnapshot(vector<string> list)
 		char *dumppath = new char[dumpfilename.length() + 1];
 		strcpy(dumppath, dumpfilename.c_str());
 		createSingleFile(dumppath);
+		ofstream ofs;
+		ofs.open (dumppath, ofstream::out | ofstream::trunc);
+		ofs.close();
 		takeDirSnapshot(path,dumppath);
 	}
 }

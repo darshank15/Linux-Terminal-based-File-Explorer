@@ -64,7 +64,7 @@ void inputProcessing(string str)
 		else{
 
 			tokens.push_back(sub);
-			if(tokens[0]!="create_file" && tokens[0]!="create_dir")
+			if(tokens[0]!="create_file" && tokens[0]!="create_dir" && tokens[0]!="search")
 			{
 				flag=1;	
 			}
@@ -95,7 +95,7 @@ void clearCommand()
 //**********************************************************************
 // Method that starts the CommandMode
 //**********************************************************************
-void startCommandMode()
+int startCommandMode()
 {
 	char ch;
 	do{
@@ -171,21 +171,26 @@ void startCommandMode()
 			}
 			else if(command == "goto")
 			{
-				cout<<"goto command  : "<<endl;
+				//cout<<"goto command  : "<<endl;
 				string gpath = gotoPath(tokens);
 				char *path = new char[gpath.length() + 1];
 		 		strcpy(path, gpath.c_str());
+		 		back_stack.push(string(curPath));
+				clearStack(forw_stack);
 		 		curPath = path;
-		 		break;
+		 		//cout<<"\ngoto path : "<<path<<endl;
+		 		return 1;
 			}
 			else if(command == "search")
 			{
 				cout<<"search command  : "<<endl;
+				searchcommand(tokens);
+				return 2;
 				
 			}
 			else if(command == "snapshot")
 			{
-				cout<<"snapshot command  : "<<endl;
+				//cout<<"snapshot command  : "<<endl;
 				takesnapshot(tokens);
 				
 			}
@@ -197,5 +202,5 @@ void startCommandMode()
 
 	}while(ch != 27);
 
-
+   return 0;
 }
