@@ -6,23 +6,24 @@
 //**********************************************************************
 // Global declaration
 //**********************************************************************
-unsigned int rowsize,colsize;
-
+unsigned int rowsize, colsize;
 
 //**********************************************************************
-// Method returns count of maximun file to be printed on terminal
+// Method returns count of maximun num of file to be printed on terminal
 //**********************************************************************
 int getFilePrintingcount()
 {
 	int lenRecord;
 	struct winsize win;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &win);
-	rowsize = win.ws_row-1;
+	rowsize = win.ws_row - 1;
 	colsize = win.ws_col;
-	if(totalFiles <= rowsize) {
+	if (totalFiles <= rowsize)
+	{
 		lenRecord = totalFiles;
 	}
-	else {
+	else
+	{
 		lenRecord = rowsize;
 	}
 	return lenRecord;

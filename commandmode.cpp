@@ -53,8 +53,17 @@ void inputProcessing(string str)
 		string sub="";
 		while(str[i]!=' ' && i<str.length())
 		{
-			sub += str[i];
-			i++;
+			if(str[i]=='\\')
+			{
+				sub += str[i+1];
+				i=i+2;
+			}
+			else{
+
+				sub += str[i];
+				i++;
+			}
+			
 		}
 		if(flag==1)
 		{
@@ -73,7 +82,7 @@ void inputProcessing(string str)
 		i++;	
 	}
 	
-	//see the list of commands in vector
+	// //see the list of commands in vector
 	// for(unsigned int i=0;i<tokens.size();i++)
 	// {
 	// 	cout<<"   tokens : "<<tokens[i];
@@ -194,10 +203,10 @@ int startCommandMode()
 			{
 				//cout<<"snapshot command  : "<<endl;
 				takesnapshot(tokens);
-				
+				clearCommand();
 			}
 			else{
-				cout<<"Invalid Command  !!!"<<endl;
+				showError("Invalid Command");
 				clearCommand();
 			}
 		}	

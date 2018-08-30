@@ -3,7 +3,6 @@
 **				and its meta data information                          **
 ************************************************************************/
 
-
 //**********************************************************************
 // Header file included
 //**********************************************************************
@@ -12,36 +11,40 @@
 //**********************************************************************
 // Declaration of global variables
 //**********************************************************************
-vector < string > dirList;
+vector<string> dirList;
 unsigned int totalFiles;
 int wintrack;
 
 //**********************************************************************
 // Method returns total number of files + Directory withing given path
 //**********************************************************************
-int getDirectoryCount(const char * path)
+int getDirectoryCount(const char *path)
 {
-	int count=0;
+	int count = 0;
 	dirList.clear();
 	DIR *d;
 	struct dirent *dir;
 	d = opendir(path);
-	if (d) {
+	if (d)
+	{
 
-	    while ((dir = readdir(d)) != NULL) {
-	      //printf("\n%-10s", dir->d_name);
-	      if( (string(dir->d_name) == "..") && (strcmp(path,root) == 0))	
-	      {   } 
-	  	  else{
-	  	  		dirList.push_back(string(dir->d_name));	
-	  	  		count++;
-	  	   }
-
-	    }
-	    closedir(d);
+		while ((dir = readdir(d)) != NULL)
+		{
+			//printf("\n%-10s", dir->d_name);
+			if ((string(dir->d_name) == "..") && (strcmp(path, root) == 0))
+			{
+			}
+			else
+			{
+				dirList.push_back(string(dir->d_name));
+				count++;
+			}
+		}
+		closedir(d);
 	}
-	else{
-	
+	else
+	{
+		showError("No such Directory Exist:::");
 	}
 	return count;
 }
@@ -51,67 +54,67 @@ int getDirectoryCount(const char * path)
 //************************************************************************
 void openDirecoty(const char *path)
 {
-	cout<<"openDir Path : "<<path<<endl;
+	//cout << "openDir Path : " << path << endl;
 	dirList.clear();
 	totalFiles = getDirectoryCount(path);
 	unsigned int len = getFilePrintingcount();
-	sort(dirList.begin(),dirList.end());
-	wintrack=0;
+	sort(dirList.begin(), dirList.end());
+	wintrack = 0;
 	printf("\033[H\033[J");
-	printf("%c[%d;%dH",27,1,1);
+	printf("%c[%d;%dH", 27, 1, 1);
 	//cout<<"\n*******total files  : "<<totalFiles<<endl;
 	//cout<<"\n***********total files needs to be printed : "<<len<<endl;
 
-	for(unsigned int i=0,itr=1;i<totalFiles && itr<=len ; i++,itr++)
-	{		
-			char *tempFileName = new char[dirList[i].length() + 1];
-			strcpy(tempFileName,dirList[i].c_str());
-			display(tempFileName, path);
+	for (unsigned int i = 0, itr = 1; i < totalFiles && itr <= len; i++, itr++)
+	{
+		char *tempFileName = new char[dirList[i].length() + 1];
+		strcpy(tempFileName, dirList[i].c_str());
+		display(tempFileName, path);
 	}
 
-	printf("%c[%d;%dH",27,0,1);
+	printf("%c[%d;%dH", 27, 0, 1);
 }
-
 
 //************************************************************************
 // function to display file/Directory's MetaDta
 //************************************************************************
 void display(const char *dirName, const char *root)
 {
-	string finalpath=string(root) + "/" +string(dirName);;
-	char* path = new char[finalpath.length() + 1];
+	string finalpath = string(root) + "/" + string(dirName);
+	char *path = new char[finalpath.length() + 1];
 	strcpy(path, finalpath.c_str());
 	//cout<<finalpath<<endl;
 	//cout<<path<<endl;
 
 	struct stat sb;
-	if (stat(path,&sb) == -1) {
-               perror("lstat");
-    }
-    
-    printf(  (S_ISDIR(sb.st_mode)) ? "d" : "-");
-	printf( (sb.st_mode & S_IRUSR) ? "r" : "-");
-    printf( (sb.st_mode & S_IWUSR) ? "w" : "-");
-    printf( (sb.st_mode & S_IXUSR) ? "x" : "-");
-    printf( (sb.st_mode & S_IRGRP) ? "r" : "-");
-    printf( (sb.st_mode & S_IWGRP) ? "w" : "-");
-    printf( (sb.st_mode & S_IXGRP) ? "x" : "-");
-    printf( (sb.st_mode & S_IROTH) ? "r" : "-");
-    printf( (sb.st_mode & S_IWOTH) ? "w" : "-");
-    printf( (sb.st_mode & S_IXOTH) ? "x" : "-");
+	if (stat(path, &sb) == -1)
+	{
+		perror("lstat");
+	}
 
-    //stat(filename, &info);  // Error check omitted
+	printf((S_ISDIR(sb.st_mode)) ? "d" : "-");
+	printf((sb.st_mode & S_IRUSR) ? "r" : "-");
+	printf((sb.st_mode & S_IWUSR) ? "w" : "-");
+	printf((sb.st_mode & S_IXUSR) ? "x" : "-");
+	printf((sb.st_mode & S_IRGRP) ? "r" : "-");
+	printf((sb.st_mode & S_IWGRP) ? "w" : "-");
+	printf((sb.st_mode & S_IXGRP) ? "x" : "-");
+	printf((sb.st_mode & S_IROTH) ? "r" : "-");
+	printf((sb.st_mode & S_IWOTH) ? "w" : "-");
+	printf((sb.st_mode & S_IXOTH) ? "x" : "-");
+
+	//stat(filename, &info);  // Error check omitted
 	struct passwd *pw = getpwuid(sb.st_uid);
-	struct group  *gr = getgrgid(sb.st_gid);
-	if(pw != 0)
+	struct group *gr = getgrgid(sb.st_gid);
+	if (pw != 0)
 		printf("\t%s", pw->pw_name);
-	if(gr != 0)
+	if (gr != 0)
 		printf(" %s", gr->gr_name);
 
-	printf("\t%10.2fK", ((double) sb.st_size)/1024);
-	char *tt=(ctime(&sb.st_mtime));
-	tt[strlen(tt)-1]='\0';
-	printf("\t%s",tt);
-	
-	printf("\t%s\n",dirName);
+	printf("\t%10.2fK", ((double)sb.st_size) / 1024);
+	char *tt = (ctime(&sb.st_mtime));
+	tt[strlen(tt) - 1] = '\0';
+	printf("\t%s", tt);
+
+	printf("\t%s\n", dirName);
 }

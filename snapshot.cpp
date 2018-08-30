@@ -1,64 +1,75 @@
+//**********************************************************************
+// Header file Included
+//**********************************************************************
 #include "myheader.h"
 
+//*************************************************************************
+// This function recursively traverse dir and append files
+//				and dirs name into dump file
+//*************************************************************************
 void takeDirSnapshot(char *path, char *dump)
 {
-		vector<string> dirv;
-		vector<string> content;
-		fstream fs;
-		unsigned int maxlen=0;
-  		fs.open (dump, fstream::app);
+	vector<string> dirv;
+	vector<string> content;
+	fstream fs;
+	fs.open(dump, fstream::app);
 
-  		fs<<endl<<path<<endl;
+	fs << endl << path << endl;
 
-		DIR *dp;
-		struct dirent *dir;
-		if((dp = opendir(path)) == NULL) {
-			showError("can not open FolderPath :::::"+string(path));
-			return;
-		}
-		while((dir = readdir(dp)) != NULL) {
+	DIR *dp;
+	struct dirent *dir;
+	if ((dp = opendir(path)) == NULL)
+	{
+		showError("Can not open FolderPath while snapshot:::::" + string(path));
+		return;
+	}
+	while ((dir = readdir(dp)) != NULL)
+	{
 
-			if( (string(dir->d_name) == "..") || (string(dir->d_name) == ".") )	
-		    {   }
-		    else 
-		    {
-		    	string name = string(dir->d_name);
-		    	if(name.length()>maxlen)
-		    		maxlen=name.length();
-		    	content.push_back(name);
-				string finalpath=string(path) + "/" + name;
-				char* newpath = new char[finalpath.length() + 1];
-				strcpy(newpath, finalpath.c_str());
-				if(isdirectory(newpath))
-				{
-					dirv.push_back(finalpath);
-				}
-		    } 		
-		}
-		for(unsigned int i=0;i<content.size();i++)
+		if ((string(dir->d_name) == "..") || (string(dir->d_name) == "."))
 		{
-			fs <<endl<<"\t"<<setw(maxlen+3)<< left << content[i];
 		}
-		fs<<endl;
-		fs.close();
-		for(unsigned int i=0;i<dirv.size();i++)
+		else
 		{
-			string popdir=dirv[i];
-			char* popdirpath = new char[popdir.length() + 1];
-			strcpy(popdirpath, popdir.c_str());
-			takeDirSnapshot(popdirpath,dump);
+			string name = string(dir->d_name);
+			content.push_back(name);
+			string finalpath = string(path) + "/" + name;
+			char *newpath = new char[finalpath.length() + 1];
+			strcpy(newpath, finalpath.c_str());
+			if (isdirectory(newpath))
+			{
+				dirv.push_back(finalpath);
+			}
 		}
-
-		closedir(dp);
+	}
+	for (unsigned int i = 0; i < content.size(); i++)
+	{
+		fs << endl << "\t" << left << content[i];
+	}
+	fs << endl;
+	fs.close();
+	for (unsigned int i = 0; i < dirv.size(); i++)
+	{
+		string popdir = dirv[i];
+		char *popdirpath = new char[popdir.length() + 1];
+		strcpy(popdirpath, popdir.c_str());
+		takeDirSnapshot(popdirpath, dump);
+	}
+	closedir(dp);
 }
+
+//**********************************************************************
+// Function process argument provided by user and handle error if any
+//**********************************************************************
 void takesnapshot(vector<string> list)
 {
 	unsigned int len = list.size();
-	if(len < 3)
+	if (len < 3)
 	{
-		showError("Less number of Argument in copy command !!!");
+		showError("Less number of Argument in snapshot command !!!");
 	}
-	else{
+	else
+	{
 		string foldername = list[1];
 		string dumpfilename = list[2];
 		char *path = new char[foldername.length() + 1];
@@ -68,8 +79,8 @@ void takesnapshot(vector<string> list)
 		strcpy(dumppath, dumpfilename.c_str());
 		createSingleFile(dumppath);
 		ofstream ofs;
-		ofs.open (dumppath, ofstream::out | ofstream::trunc);
+		ofs.open(dumppath, ofstream::out | ofstream::trunc);
 		ofs.close();
-		takeDirSnapshot(path,dumppath);
+		takeDirSnapshot(path, dumppath);
 	}
 }
