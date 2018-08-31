@@ -34,7 +34,10 @@ void printsearchData()
 
 	for (unsigned int i = 0, itr = 1; i < totalFiles && itr <= len; i++, itr++)
 	{
-		cout << dirList[i] << endl;
+		 char *searchfullpath = new char[dirList[i].length() + 1];
+         strcpy(searchfullpath,dirList[i].c_str());
+         display(searchfullpath,root);
+
 	}
 
 	printf("%c[%d;%dH", 27, 1, 1);
@@ -92,8 +95,7 @@ void searchanything(char *path, string filename)
 	}
 	else
 	{
-
-		showError("No such Directory path Exist while searching !!!");
+		//showError("No such Directory path Exist while searching !!!");
 	}
 }
 

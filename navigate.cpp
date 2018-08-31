@@ -15,13 +15,12 @@
 //**********************************************************************
 // Global Declaration & #defined macros
 //**********************************************************************
-unsigned int xcor = 1, ycor = 1;
+unsigned int xcor = 1, ycor = 80;
 char *curPath;
-int searchflag;
 #define esc 27
 #define cls printf("%c[2J", esc)
 #define pos() printf("%c[%d;%dH", esc, xcor, ycor)
-#define posx(x) printf("%c[%d;%dH", esc, x, ycor)
+#define posx(x,y) printf("%c[%d;%dH", esc, x, y)
 
 //**********************************************************************
 // Method that update current path when backspace key pressed
@@ -54,7 +53,7 @@ void navigate()
 {
 
 	curPath = root;
-	xcor = 1, ycor = 1;
+	xcor = 1, ycor = 80;
 	pos();
 	char ch;
 
@@ -75,7 +74,7 @@ void navigate()
 		while (1)
 		{
 			int lastLine = rowsize + 1;
-			posx(lastLine);
+			posx(lastLine,1);
 			cout << "-----NORMAL MODE-----";
 			pos();
 
@@ -103,12 +102,12 @@ void navigate()
 								wintrack--;
 							}
 							//cout<<"wintrack : "<<wintrack<<"***********";
-
+							posx(1,1);
 							for (unsigned int i = wintrack; i <= rowsize + wintrack - 1; i++)
 							{
 								char *tempFileName = new char[dirList[i].length() + 1];
 								strcpy(tempFileName, dirList[i].c_str());
-								display(tempFileName, root);
+								display(tempFileName, curPath);
 							}
 							xcor++;
 							pos();
@@ -123,7 +122,6 @@ void navigate()
 					if (xcor + wintrack < (totalFiles))
 					{
 						xcor++;
-						//cout<<"**********xcor"<<xcor<<"*****"<<endl;
 						if (xcor <= rowsize)
 						{
 							pos();
@@ -137,12 +135,12 @@ void navigate()
 								wintrack++;
 							}
 							//cout<<"wintrack : "<<wintrack<<"***********";
-
+							posx(1,1);
 							for (int i = wintrack; i <= lenRecord + wintrack; i++)
 							{
 								char *tempFileName = new char[dirList[i].length() + 1];
 								strcpy(tempFileName, dirList[i].c_str());
-								display(tempFileName, root);
+								display(tempFileName, curPath);
 							}
 							xcor--;
 						}
@@ -162,6 +160,7 @@ void navigate()
 						forw_stack.pop();
 						strcpy(curPath, top.c_str());
 						//cout<<"******* RIGHT: "<<curPath;
+						searchflag=0;
 						openDirecoty(curPath);
 					}
 				}
@@ -177,6 +176,7 @@ void navigate()
 						string top = back_stack.top();
 						back_stack.pop();
 						strcpy(curPath, top.c_str());
+						searchflag=0;
 						//cout<<"******* : LEFT"<<curPath;
 						openDirecoty(curPath);
 					}
@@ -193,6 +193,7 @@ void navigate()
 					back_stack.push(string(curPath));
 				clearStack(forw_stack);
 				strcpy(curPath, root);
+				searchflag=0;
 				openDirecoty(curPath);
 			}
 			//If Back-Space key pressed
@@ -263,6 +264,9 @@ void navigate()
 				else if ((sb.st_mode & S_IFMT) == S_IFREG)
 				{
 					//cout<<"**************File Path : "<<filepath<<"***************"<<endl;
+					int fileOpen=open("/dev/null",O_WRONLY);
+					dup2(fileOpen,2);
+					close(fileOpen);
 					pid_t processID = fork();
 					if(processID == 0)
 					{
@@ -279,7 +283,7 @@ void navigate()
 			else if (ch == 58)
 			{
 				int lastLine = rowsize + 1;
-				posx(lastLine);
+				posx(lastLine,1);
 				printf("%c[2K", 27);
 				cout << ":";
 				//cout<<"going into command mode :"<<endl;
@@ -297,6 +301,8 @@ void navigate()
 				}
 				else
 				{
+					//cout<<"Normal out : ";
+					searchflag=0;
 					openDirecoty(curPath);
 				}
 			}

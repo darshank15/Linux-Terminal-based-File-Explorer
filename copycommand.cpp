@@ -57,7 +57,7 @@ void copydirectory(char *path, char *des)
 	    }
 	}
 	else{
-		showError("No such Directory Exist !!!");
+		showError("No such Directory found while copying with path :::::"+ string(path));
 	}
 }
 
@@ -91,8 +91,6 @@ void copyfile(char *path, char *des)
     int status2=chmod(des,sourcestat.st_mode);
 	if(status2!=0)
 		showError("Error in setting permission of file using chmod");
-
-
 
 }
 

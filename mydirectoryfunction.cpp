@@ -13,6 +13,7 @@
 vector<string> dirList;
 unsigned int totalFiles;
 int wintrack;
+int searchflag = 0;
 
 //**********************************************************************
 // Method returns total number of files + Directory withing given path
@@ -56,8 +57,8 @@ void openDirecoty(const char *path)
 	d = opendir(path);
 	if (!d)
 	{
-		showError("Ops something wrong !!!");	
-		return;	
+		showError("Ops something wrong !!!");
+		return;
 	}
 	//cout << "openDir Path : " << path << endl;
 	dirList.clear();
@@ -67,8 +68,6 @@ void openDirecoty(const char *path)
 	wintrack = 0;
 	printf("\033[H\033[J");
 	printf("%c[%d;%dH", 27, 1, 1);
-	//cout<<"\n*******total files  : "<<totalFiles<<endl;
-	//cout<<"\n***********total files needs to be printed : "<<len<<endl;
 
 	for (unsigned int i = 0, itr = 1; i < totalFiles && itr <= len; i++, itr++)
 	{
@@ -77,7 +76,7 @@ void openDirecoty(const char *path)
 		display(tempFileName, path);
 	}
 
-	printf("%c[%d;%dH", 27, 0, 1);
+	printf("%c[%d;%dH", 27, 1, 80);
 }
 
 //************************************************************************
@@ -85,12 +84,18 @@ void openDirecoty(const char *path)
 //************************************************************************
 void display(const char *dirName, const char *root)
 {
-	string finalpath = string(root) + "/" + string(dirName);
+	string finalpath;
+	if (searchflag == 1)
+	{
+		finalpath = string(dirName);
+	}
+	else
+	{
+		finalpath = string(root) + "/" + string(dirName);
+	}
 	char *path = new char[finalpath.length() + 1];
 	strcpy(path, finalpath.c_str());
-	//cout<<finalpath<<endl;
-	//cout<<path<<endl;
-
+	//cout<<"Display path : "<<path<<"     ";;
 	struct stat sb;
 	if (stat(path, &sb) == -1)
 	{
@@ -112,14 +117,13 @@ void display(const char *dirName, const char *root)
 	struct passwd *pw = getpwuid(sb.st_uid);
 	struct group *gr = getgrgid(sb.st_gid);
 	if (pw != 0)
-		printf("\t%s", pw->pw_name);
+		printf("\t%-8s", pw->pw_name);
 	if (gr != 0)
-		printf(" %s", gr->gr_name);
+		printf(" %-8s", gr->gr_name);
 
-	printf("\t%10.2fK", ((double)sb.st_size) / 1024);
+	printf("%10.2fK", ((double)sb.st_size) / 1024);
 	char *tt = (ctime(&sb.st_mtime));
 	tt[strlen(tt) - 1] = '\0';
-	printf("\t%s", tt);
-
-	printf("\t%s\n", dirName);
+	printf("%30s", tt);
+	printf("\t%-20s\n", dirName);
 }
