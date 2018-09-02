@@ -57,7 +57,11 @@ void openDirecoty(const char *path)
 	d = opendir(path);
 	if (!d)
 	{
-		showError("Ops something wrong !!!");
+		int lastLine = rowsize + 1;
+		printf("%c[%d;%dH",27,lastLine,1);
+		printf("%c[2K", 27);
+		cout<<":";
+		showError("Ops something wrong to open Dir :::"+string(path));
 		return;
 	}
 	//cout << "openDir Path : " << path << endl;

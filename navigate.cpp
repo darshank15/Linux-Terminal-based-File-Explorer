@@ -162,6 +162,8 @@ void navigate()
 						//cout<<"******* RIGHT: "<<curPath;
 						searchflag=0;
 						openDirecoty(curPath);
+						xcor = 1, ycor = 80;
+						pos();
 					}
 				}
 				//If LEFT-arrow Key press
@@ -179,6 +181,8 @@ void navigate()
 						searchflag=0;
 						//cout<<"******* : LEFT"<<curPath;
 						openDirecoty(curPath);
+						xcor = 1, ycor = 80;
+						pos();
 					}
 				}
 				else
@@ -195,6 +199,8 @@ void navigate()
 				strcpy(curPath, root);
 				searchflag=0;
 				openDirecoty(curPath);
+				xcor = 1, ycor = 80;
+				pos();
 			}
 			//If Back-Space key pressed
 			else if (ch == 127)
@@ -208,6 +214,8 @@ void navigate()
 					clearStack(forw_stack);
 					setBackPath(curPath);
 					openDirecoty(curPath);
+					xcor = 1, ycor = 80;
+					pos();
 				}
 			}
 			//If Enter key pressed
