@@ -193,14 +193,18 @@ void navigate()
 			else if (ch == 104 || ch == 72)
 			{
 				string cpath = string(curPath);
-				if(searchflag!=1)
-					back_stack.push(string(curPath));
-				clearStack(forw_stack);
-				strcpy(curPath, root);
-				searchflag=0;
-				openDirecoty(curPath);
-				xcor = 1, ycor = 80;
-				pos();
+				if(cpath!=string(root))
+				{
+					if(searchflag!=1)
+						back_stack.push(string(curPath));
+					clearStack(forw_stack);
+					strcpy(curPath, root);
+					searchflag=0;
+					openDirecoty(curPath);
+					xcor = 1, ycor = 80;
+					pos();
+				}
+				
 			}
 			//If Back-Space key pressed
 			else if (ch == 127)

@@ -129,5 +129,12 @@ void display(const char *dirName, const char *root)
 	char *tt = (ctime(&sb.st_mtime));
 	tt[strlen(tt) - 1] = '\0';
 	printf("%30s", tt);
-	printf("\t%-20s\n", dirName);
+	if(S_ISDIR(sb.st_mode))
+	{
+		printf("\033[1;32m");
+		printf("\t%-20s\n", dirName);
+		printf("\033[0m");
+	}
+	else
+		printf("\t%-20s\n", dirName);
 }
